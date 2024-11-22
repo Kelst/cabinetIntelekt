@@ -1,0 +1,151 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { 
+  Phone as PhoneIcon,
+  MapPin as AddressIcon,
+  Wifi as InternetIcon,
+  User as UserIcon,
+  RefreshCw as RefreshIcon,
+  Lock as PasswordIcon
+} from 'lucide-react';
+
+import { Router } from 'lucide-react';
+
+import { IconButton, Tooltip } from '@mui/material';
+import ModeEditOutlineTwoToneIcon from '@mui/icons-material/ModeEditOutlineTwoTone';
+import MysteriousText from '../MysteriousText/MysteriousText';
+import AnimatedLoginShield from '../CheckmarkSquare/CheckmarkSquare';
+import PauseIcon from '../PauseIcon/PauseIcon';
+import GlasmorphizmButton from '../button/glasmorphizm/GlasmorphizmButton';
+import useStore from '../../store/store';
+import AnimatedRocket from '../PulsingCircle/PulsingCircle';
+import NetworkDiagnostics from '../networkDiagnostics/NetworkDiagnostics';
+import useConfigPage from '../../store/configPage';
+import TelegramAdButton from '../telegramComponent/TelegramAdButton';
+
+const iconVariants = {
+  animate: {
+    rotateY: [0, 10, 0, -10, 0],
+    rotateX: [0, 5, 10, 5, 0],
+    filter: ["brightness(1)", "brightness(1.2)", "brightness(1.4)", "brightness(1.2)", "brightness(1)"],
+    transition: {
+      duration: 5,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }
+  }
+};
+
+const MainInfo = ({ style, handleEditPhone, handleStopPlayLogin, handleReloadSession, handleCid,handleEditPassword }) => {
+  const user = useStore(state => state.userData);
+  const configCabinet = useConfigPage(state => state.configCabinet);
+  
+  const InfoItem = ({ icon: Icon, label, value, children }) => (
+    <div className="flex items-center py-3 border-b border-gray-700 last:border-b-0">
+      <motion.div
+        className="mr-3 perspective-400"
+        variants={iconVariants}
+        animate="animate"
+      >
+        <Icon className="w-5 h-5 flex-shrink-0 text-gray-400" />
+      </motion.div>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center w-full">
+        <span className="text-sm text-gray-400 sm:text-base sm:mr-4">{label}</span>
+        <div className="font-medium text-gray-200 mt-1 sm:mt-0 flex items-center">
+          {value}
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className={`bg-black p-4 sm:p-6 rounded-md shadow-md ${style.animationBorder}`}>
+            <TelegramAdButton/>
+      <h2 className="text-xl font-bold mb-4 sm:mb-6 text-red-500 flex items-center">
+        <motion.div
+          className="mr-2 perspective-400"
+          variants={iconVariants}
+          animate="animate"
+        >
+          <UserIcon className="w-6 h-6" />
+        </motion.div>
+        <MysteriousText>Основне</MysteriousText>
+      </h2>
+      <div className="space-y-2 sm:space-y-0">
+        <InfoItem 
+          icon={PhoneIcon} 
+          label="Телефон" 
+          value={user?.phone}
+        >
+          {
+            configCabinet.home.editPhone?
+           <Tooltip title="Змінити номер телефону" arrow>
+          <IconButton aria-label="edited" onClick={handleEditPhone} className="ml-2">
+            <ModeEditOutlineTwoToneIcon className="text-gray-300" fontSize="small" />
+          </IconButton>
+          </Tooltip>
+          :<></>
+          }
+          
+        </InfoItem>
+        <InfoItem icon={AddressIcon} label="Адреса" value={user?.address} />
+        <InfoItem 
+          icon={InternetIcon} 
+          label="Стан інтернет з'єднання" 
+          value={
+            user?.statusInternet 
+              ? (
+                <div className="inline-flex justify-center items-center gap-2" >
+                  <AnimatedRocket type="active" />
+                  Active
+                  { configCabinet.home.reloadSesion?
+                    <Tooltip title="Перезавантажити сесію" arrow>
+                    <IconButton size="small" className="ml-2" onClick={handleReloadSession}>
+                      <RefreshIcon className="w-4 h-4 text-gray-300" />
+                    </IconButton>
+                  </Tooltip>:<></>}
+                </div>
+              )
+              : <div className="inline-flex justify-center items-center gap-2"><AnimatedRocket type="inactive" /> Inactive <NetworkDiagnostics/></div>
+          } 
+        />
+        <InfoItem icon={Router} label="MAC" value={
+          <Tooltip title="Інтернет сесія працює на цьому mac-адресі" arrow>
+            <IconButton size="small" className="ml-2" >
+              <div className='text-white'>{user?.cid}</div> 
+            </IconButton>
+          </Tooltip>
+        } />
+        <InfoItem 
+          icon={UserIcon} 
+          label="Стан логіну" 
+          value={
+            user?.status 
+              ? <div className="inline-flex gap-x-2"><AnimatedLoginShield /> Активований</div>
+              : <div className="inline-flex gap-x-2"><PauseIcon /> На паузі</div>
+          } 
+        />
+        <InfoItem 
+          icon={PasswordIcon} 
+          label="Пароль" 
+          value="********"
+        >
+         { configCabinet.home.changePassword?
+          <Tooltip title="Змінити пароль для входу" arrow>
+            <IconButton aria-label="change password" onClick={handleEditPassword} className="ml-2">
+              <ModeEditOutlineTwoToneIcon className="text-gray-300" fontSize="small" />
+            </IconButton>
+          </Tooltip>:<></>}
+        </InfoItem>
+      </div>
+      <div className="mt-4">
+       { configCabinet.home.stopPlayLogin?
+        <GlasmorphizmButton label={user?.status ? `Призупинити логін` : 'Активувати логін'} handleAction={handleStopPlayLogin} />:<></>
+        }
+      </div>
+    </div>
+  );
+};
+
+export default MainInfo;

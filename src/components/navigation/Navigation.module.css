@@ -1,0 +1,167 @@
+
+
+.sideBar{
+    @apply rounded-2xl rounded-tl-none rounded-bl-none;
+    position: absolute;
+    width: 80px;
+    height: 100vh;
+    background: #fff;
+ 
+    transition: 0.5s;
+    padding-left: 22px;
+    color: white;
+    overflow: hidden;
+    z-index: 100;
+}
+.sideBar.active{
+    width: 100vw;
+    position: relative;
+    z-index: 1000;
+    
+}
+.sideBar ul li.active{
+  color: white;
+  
+  background: rgb(13,38,43);
+  background: linear-gradient(90deg, rgba(13,38,43,1) 12%, rgba(243, 243, 243, 0.551) 45%);
+
+
+
+      padding-left: 10px;
+    
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+ .sideBar ul li.active::before{
+  --tw-bg-opacity: 1;
+  
+    top:-20px;
+    right:0;
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-width: 0px;
+    border-color: transparent;
+    border-bottom-right-radius: 20px;
+    box-shadow:5px 5px 0 5px  linear-gradient(90deg, rgba(13,38,43,1) 12%, rgba(220,38,38,1) 45%);
+    
+
+ }
+ .sideBar ul li.active::after{ 
+    content: '';
+    position: absolute;
+    bottom:-20px;
+    right:0;
+    width: 20px;
+    height: 20px;
+
+    border-top-right-radius: 20px;
+    box-shadow:5px -5px 0 5px linear-gradient(90deg, rgba(13,38,43,1) 25%, rgba(220,38,38,1) 15%);
+
+ 
+
+ }
+.sideBar ul {
+    position: relative;
+    height: 100vh;
+    color: white;
+
+}
+
+.sideBar ul li{
+    position: relative;
+    list-style: none;
+}
+.sideBar ul li.logo{
+  
+    margin-bottom: 50px;
+    max-width: 30px;
+
+}
+.sideBar ul li.logo .icon{
+  font-size: 2em;
+  color: var(--clr);
+}
+
+.sideBar ul li.logo .text{
+    font-size: 1.2em;
+    font-weight: 500;
+    color: white;
+  }
+
+  .sideBar ul li a {
+    position: relative;
+    display: flex;
+    white-space: nowrap;
+  }
+  .sideBar ul li a .icon {
+    position: relative;
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    min-width: 60px;
+    height: 70px;
+    font-size: 1.5em;
+    color: #333;
+    transition: 0.6s;
+
+
+
+  }
+  .sideBar ul li a .text{
+
+    position: relative;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    font-size: 1em;
+    color: #333;
+    padding-left: 1px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: 1.1s;
+
+
+
+  }
+  .sideBar ul li.active a .text{
+    
+    color: white;
+  }
+  .sideBar ul li.active a .icon{
+    position: relative;
+    z-index: 1;
+    padding-left: 1.2px;
+    color: #fff;
+  }
+  
+  .sideBar ul li.active a .icon::before{
+    content: '';
+    position: absolute;
+    
+    width: 60px;
+    background: var(--bg);
+    border-radius: 50%;
+    transition: 0.9s;
+    inset: 5px;
+    left: -16px;
+    z-index: -5;
+
+
+  }
+  .sideBar ul li.active:hover a .icon{
+    color: white;
+  }
+  .sideBar ul li:hover.active a .icon::before{
+    background: black;
+    
+  }
+  .sideBar ul li:hover a .icon,
+  .sideBar ul li:hover a .text
+  {
+    color: var(--bg);
+  }
+  a .text{
+    color: white;
+  }

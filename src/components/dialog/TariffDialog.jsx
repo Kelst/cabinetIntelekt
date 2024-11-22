@@ -1,0 +1,70 @@
+import React from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import Slide from '@mui/material/Slide';
+import CloseIcon from '@mui/icons-material/Close';
+import GlazmorphizmCard from '../glazmorphizmCard/GlazmorphizmCard';
+import useStore from '../../store/store';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+export default function TariffDialog({ open, handleClose }) {
+  const tariff = useStore(state => state.user.tariff);
+  const tarriffList = useStore(state => state.user.tarifAvaible);
+
+  return (
+    <Dialog
+      open={open}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={handleClose}
+      fullWidth
+      maxWidth="lg"
+    >
+      <div className="relative pt-8 pb-6 px-4">
+        <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-red-800/10 to-red-500/10" />
+        
+        <div className="relative flex flex-col items-center gap-2">
+          <div className="w-16 h-0.5 bg-gradient-to-r from-red-300 to-orange-500 rounded-full" />
+          
+          <h2 className="text-2xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-red-300 to-orange-500 uppercase text-center relative">
+            Доступні тарифні плани
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-2/5 h-0.5 bg-gradient-to-r from-red-300 to-orange-500 rounded-full" />
+          </h2>
+          
+          <p className="text-sm text-gray-500 tracking-wide text-center mt-4">
+            Оберіть найкращий тариф для вас
+          </p>
+        </div>
+
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: 'rgba(0, 0, 0, 0.5)',
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </div>
+
+      <DialogContent>
+        <GlazmorphizmCard tarriffList={tarriffList} tariff={tariff} handleClose={handleClose} />
+      </DialogContent>
+
+      <DialogActions>
+        <Button onClick={handleClose} sx={{ color: 'black' }}>
+          Закрити
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
