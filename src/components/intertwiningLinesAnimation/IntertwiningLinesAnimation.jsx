@@ -45,7 +45,7 @@ const IntertwiningLinesAnimation = () => {
   };
 
   return (
-    <div className="fixed right-0 top-0 bottom-0 w-10 overflow-hidden bg-transparent pointer-events-none z-50">
+    <div className="fixed right-0 top-0 bottom-0 w-10 overflow-hidden bg-transparent pointer-events-none z-20">
       <svg
         className="w-full h-full"
         viewBox="0 0 40 100"

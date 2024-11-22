@@ -6,7 +6,6 @@ import useStore from '../../store/store';
 import ContactInfoButton from '../сontactInfoButton/ContactInfoButton';
 import { RandomAvatar } from '../icons/RandomAvatar';
 import useInfoStore from '../../store/infoStore';
-import TelegramAdButton from '../telegramComponent/TelegramAdButton';
 
 const UserHeader = () => {
   const [isHovered, setIsHovered] = useState(false);
