@@ -53,6 +53,8 @@ const useConfigPage = create((set) => ({
     try {
       const response = await $api.get(`http://194.8.147.150:5000/api/getImageUrl?type=${provider}`)
       const result = response.data
+      console.log(result,"RESULLLT");
+      
       set({ imageUrl: result })
       return result
     } catch (error) {

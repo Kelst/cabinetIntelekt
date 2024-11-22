@@ -77,7 +77,7 @@ export default function Layout() {
         muted
         className="fixed top-0 left-0 min-w-full min-h-full object-cover z-[-1]"
       >
-        <source src="src/assets/hsv4.mp4" type={imageUrl.backgroundVideo} />
+        <source src="src/assets/hsv4.mp4"  />
         Your browser does not support the video tag.
       </video>
       <Loader />
