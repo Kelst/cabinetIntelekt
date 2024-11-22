@@ -81,6 +81,7 @@ const TelegramAdButton = () => {
           position: 'fixed',
           top: 96,
           right: 36,
+          zIndex: 20,
           bgcolor: '#ff1744',
           color: 'white',
           animation: `${pulse} 2s infinite`,

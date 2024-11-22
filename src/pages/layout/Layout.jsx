@@ -1,28 +1,28 @@
-// Layout.jsx
-import React, { useEffect, useState } from 'react'
-import { Outlet, useLocation, useLoaderData } from 'react-router-dom'
-import Navigation from '../../components/navigation/Navigation'
-import Loader from '../../components/loader/Loader'
-import NavigationBig from '../../components/navigation/NavigationBig'
-import CustomAlert from '../../components/alert/CustomAlert'
-import useInfoStore from '../../store/infoStore'
-import hand from "../../assets/hand.png"
-import IntertwiningLinesAnimation from '../../components/intertwiningLinesAnimation/IntertwiningLinesAnimation'
-import useConfigPage from '../../store/configPage'
+import React, { useEffect, useState } from 'react';
+import { Outlet, useLocation, useLoaderData } from 'react-router-dom';
+import Navigation from '../../components/navigation/Navigation';
+import Loader from '../../components/loader/Loader';
+import NavigationBig from '../../components/navigation/NavigationBig';
+import CustomAlert from '../../components/alert/CustomAlert';
+import useInfoStore from '../../store/infoStore';
+import hand from "../../assets/hand.png";
+import IntertwiningLinesAnimation from '../../components/intertwiningLinesAnimation/IntertwiningLinesAnimation';
+import useConfigPage from '../../store/configPage';
+import HeaderSignboard from '../../components/headerSignboard/HeaderSignboard';
+import useStore from '../../store/store';
 
 export default function Layout() {
+  const user = useStore(state => state.user);
   const [isLoading, setIsLoading] = useState(true);
   const loaderData = useLoaderData();
-  let location = useLocation();
-  const setActiveItem = useInfoStore(state => state.setActiveItem)
-  const showCursor = useInfoStore(state => state.showCursor)
-  const setLoader = useInfoStore(store => store.setLoader)
-  const imageUrl = useConfigPage(state => state.imageUrl);
+  const location = useLocation();
+  const setActiveItem = useInfoStore(state => state.setActiveItem);
+  const showCursor = useInfoStore(state => state.showCursor);
+  const setLoader = useInfoStore(store => store.setLoader);
+  const [showButton, setShowButton] = useState(false);
 
-  // Ініціалізація з loader'ом
   useEffect(() => {
     setLoader(true);
-    // Затримка в 1 секунду для відображення loader'а
     setTimeout(() => {
       setLoader(false);
       setIsLoading(false);
@@ -30,39 +30,21 @@ export default function Layout() {
   }, []);
 
   useEffect(() => {
-    switch (location.pathname) {
-      case "/":
-        setActiveItem("Item1")
-        break;
-      case "/payment":
-        setActiveItem("Item2")
-        break;
-      case "/info":
-        setActiveItem("Item3")
-        break;
-      case "/news":
-        setActiveItem("Item4")
-        break;
-    }
+    const routes = {
+      "/": "Item1",
+      "/payment": "Item2",
+      "/info": "Item3",
+      "/news": "Item4"
+    };
+    setActiveItem(routes[location.pathname] || "Item1");
   }, [location, showCursor]);
 
-
-
-  const [showButton, setShowButton] = useState(false)
-  const handleScrolltoTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }
-
   useEffect(() => {
-    const handleScrollbutton = () => {
-      window.pageYOffset > 100 ? setShowButton(true) : setShowButton(false);
+    const handleScrollButton = () => {
+      setShowButton(window.pageYOffset > 100);
     };
-    
-    window.addEventListener('scroll', handleScrollbutton);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScrollbutton);
-    };
+    window.addEventListener('scroll', handleScrollButton);
+    return () => window.removeEventListener('scroll', handleScrollButton);
   }, []);
 
   if (!loaderData.isAuth || isLoading) {
@@ -70,33 +52,49 @@ export default function Layout() {
   }
 
   return (
-    <div className='pt-0 relative'>
+    <div className="relative min-h-screen w-full overflow-x-hidden">
       <video
         autoPlay
         loop
         muted
-        className="fixed top-0 left-0 min-w-full min-h-full object-cover z-[-1]"
+        className="fixed inset-0 w-full h-full object-cover -z-10"
       >
-        <source src="src/assets/hsv4.mp4"  />
+        <source src="src/assets/hsv4.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
+
       <Loader />
       <CustomAlert />
-      <IntertwiningLinesAnimation/>
-      <div className='flex gap-x-28 md:gap-x-0'>
-        <div className='flex-shrink'>
-          <Navigation />
-          <NavigationBig />
-        </div>
-        <div className={`h-[70vh] w-[275px] m-auto px-2 mt-[200px] m-x-10 smm:w-[350px] ss:w-[400px] sm:w-[550px] md:w-[900px] md1:w-[1019px] xl:w-[1100px] 2xl:w-[1450px]`}>
-          {showButton && (
-            <div className='fixed bottom-5 right-4 z-[1000] p-4'>
-              <img width={50} src={hand} alt="" srcSet="" className='text-white animate-bounce cursor-pointer' onClick={handleScrolltoTop} />
-            </div>
-          )}
+      <IntertwiningLinesAnimation />
+      <HeaderSignboard user={user} />
+
+      <div className="flex flex-col md:flex-row w-full">
+        <nav className="w-full md:w-auto flex-shrink-0">
+          <div className="block z-[1000] md:hidden">
+            <Navigation />
+          </div>
+          <div className="hidden md:block">
+            <NavigationBig />
+          </div>
+        </nav>
+
+        <main className="flex-grow px-4 mt-[10px] md:mt-[200px] mx-auto w-full max-w-[90%] sm:max-w-[550px] md:max-w-[900px] lg:max-w-[1019px] xl:max-w-[1100px] 2xl:max-w-[1450px]">
           <Outlet />
-        </div>
+        </main>
       </div>
+
+      {showButton && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="fixed bottom-5 right-4 z-50 p-4 transition-opacity hover:opacity-80"
+        >
+          <img 
+            src={hand} 
+            alt="Scroll to top" 
+            className="w-12 h-12 animate-bounce"
+          />
+        </button>
+      )}
     </div>
-  )
+  );
 }

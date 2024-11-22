@@ -1,154 +1,211 @@
 import React, { useState } from "react";
-import clases from "./Navigation.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import PaidIcon from '@mui/icons-material/Paid';
 import InfoIcon from '@mui/icons-material/Info';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import LogoutIcon from '@mui/icons-material/Logout';
-import useStore from "../../store/store";
-import KeyboardTabOutlinedIcon from '@mui/icons-material/KeyboardTabOutlined';
-import IconMenuGridO from "../icons/IconMenuGrid0";
-import Loader from "../loader/Loader";
-import ExitDialog from "../dialog/ExitDialog";
-import useInfoStore from "../../store/infoStore";
-import HamburgerBtn from "../hamburger/HamburgerBtn";
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
-import ContactInfoButton from "../сontactInfoButton/ContactInfoButton";
+import CloseIcon from '@mui/icons-material/Close';
+import useStore from "../../store/store";
+import useInfoStore from "../../store/infoStore";
 import useConfigPage from "../../store/configPage";
+import ExitDialog from "../dialog/ExitDialog";
 
-export default function Navigation() {
-  
-    const [active,setActive]=useState(false)
-    const activeItem=useInfoStore(state=>state.activeItem)
-    const setActiveItem=useInfoStore(state=>state.setActiveItem)
-    const logOut=useStore(state=>state.logOut)
-    const [open, setOpen] = React.useState(false);
-    const configCabinet = useConfigPage(state => state.configCabinet);
+const Navigation = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [exitDialogOpen, setExitDialogOpen] = useState(false);
+  const activeItem = useInfoStore(state => state.activeItem);
+  const setActiveItem = useInfoStore(state => state.setActiveItem);
+  const logOut = useStore(state => state.logOut);
+  const navigate = useNavigate();
+  const configCabinet = useConfigPage(state => state.configCabinet);
 
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
-  
-    const handleClose = () => {
-      setOpen(false);
-    };
-    const navigate=useNavigate()
-    const handleLogOuth = async ()=>{
-        try {
-            await logOut()
-            navigate("/login")
-
-        }
-        catch (e){
-              console.log('помилка виходу з акаунта');
-        }
-
+  const handleLogOut = async () => {
+    try {
+      await logOut();
+      navigate("/login");
+    } catch (e) {
+      console.log('Помилка виходу з акаунта');
     }
-    const handleActiveItemSelect=(item)=>{
-        setActiveItem(item)
-    }
-    const handleActiveNavigation=()=>{
-        setActive(ac=>!ac)
-    }
-    const handleActiveNavigationFromActive=()=>{
-      setActive(false)
-  }
+  };
+
+  const handleNavItemClick = (item) => {
+    setActiveItem(item);
+    setIsOpen(false);
+  };
+
   return (
-    <div className="fixed left-0 z-30">
-
-    <div className={`md:-translate-x-72    ${clases.sideBar}  ${active?clases.active:''}`}>
-
-    <nav >
-      <ul>
-        <li className={`${clases.logo}`}>
-          <div     className={` cursor-pointer mt-5 flex transition-transform  duration-300 ease-in  transform ${
-      active ? 'rotate-180 translate-x-[80vw]  bg-opacity-10 backdrop-blur-lg bg-white' : ''
-    }`}   onClick={handleActiveNavigation}>
-          {/* <KeyboardTabOutlinedIcon  className={active?'    ml-auto': `  `} /> */}
-         <HamburgerBtn/>
-          </div>
-        </li>
-
-        <div className={clases.menuList}>
-          <li style={{'--bg': '#000'}}
-          key={1}
-          className={activeItem=='Item1'?clases.active:""}
-          onClick={()=>{
-            handleActiveNavigationFromActive()
-            handleActiveItemSelect('Item1')}}
-          >
-            <NavLink to={"/"}>
-              <div className={clases.icon}><PermIdentityIcon/></div>
-              <div className={clases.text}>Загальне </div>
-            </NavLink>
-          </li>
-          <li style={{'--bg': '#000'}}
-          key={2}
-                    className={activeItem=='Item2'?clases.active:""}
-                    onClick={()=>{
-                      handleActiveNavigationFromActive()
-                      handleActiveItemSelect('Item2')}}
-          >
-            <NavLink to={"/payment"}>
-              <div className={clases.icon}><PaidIcon/></div>
-              <div className={clases.text}>Оплати</div>
-            </NavLink>
-          </li>
-          <li style={{'--bg': '#000'}}
-          key={3}
-                    className={activeItem=='Item3'?clases.active:""}
-                    onClick={()=>{
-                      handleActiveNavigationFromActive()
-                      handleActiveItemSelect('Item3')}}
-          >
-            <NavLink to={"/info"}>
-              <div className={clases.icon}><InfoIcon/></div>
-              <div className={clases.text}>Додатково</div>
-            </NavLink>
-          </li>
-          
-          <li style={{'--bg': '#000'}} 
-          key={4}
-                    className={activeItem=='Item4'?clases.active:""}
-                    onClick={()=>{
-                      handleActiveNavigationFromActive()
-                      handleActiveItemSelect('Item4')}}
-          >
-            <NavLink to={"/news"}>
-              <div className={clases.icon}><NewspaperIcon/></div>
-              <div className={clases.text}>Новини</div>
-            </NavLink>
-          </li>
-          <li style={{'--bg': '#000'}} 
-          key={5}
-                    className={activeItem=='Item5'?clases.active:""}
-                    onClick={()=>{
-                      handleActiveNavigationFromActive()
-                      handleActiveItemSelect('Item5')}}
-          >
-         {configCabinet.additional.showStore?  <NavLink to={"/intelekt-shop"}>
-              <div className={clases.icon}><ShoppingBasketIcon/></div>
-              <div className={clases.text}>Магазин</div>
-            </NavLink> :<></>}
-          </li>
-
+    <div className="fixed left-0 top-0 z-[1000]">
+      <motion.button 
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => setIsOpen(true)}
+        className="p-3 m-4 rounded-full bg-white shadow-lg hover:shadow-red-200/50"
+      >
+        <div className="w-6 h-6 flex flex-col justify-center space-y-1.5">
+          <div className="h-0.5 bg-black rounded-full" />
+          <div className="h-0.5 bg-black rounded-full" />
+          <div className="h-0.5 bg-black rounded-full" />
         </div>
-        <div className={clases.bottom}>
-            <li style={{'--bg': '#000'}} 
-            key={6}
-                      className={activeItem=='Item6'?clases.active:""}
-                      onClick={()=>handleActiveItemSelect('Item6')}
+      </motion.button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-white/95 backdrop-blur-sm flex items-center justify-center"
+          >
+            <motion.button
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0 }}
+              onClick={() => setIsOpen(false)}
+              className="absolute top-4 right-4 p-2 rounded-full hover:bg-red-50"
             >
-            <NavLink  onClick={()=>handleClickOpen()}>
-              <div className={clases.icon}><LogoutIcon/></div>
-              <div className={clases.text}>LogOut</div>
-            </NavLink>
-          </li>
-        </div>
-      </ul>
-    </nav>
-    <ExitDialog open={open} handleClose={handleClose} handleLogOuth={handleLogOuth}/>
-    </div></div>
+              <CloseIcon className="w-10 h-10 text-black" />
+            </motion.button>
+
+            <div className="flex flex-col items-center justify-center w-full max-w-md mx-auto -mt-20">
+              <motion.img 
+                src={configCabinet.logo_min_navigation} 
+                alt="Logo" 
+                className="h-[100px] w-[100px] mb-12"
+                initial={{ opacity: 0, y: -20, scale: 0.8 }}
+                animate={{ 
+                  opacity: 1, 
+                  y: 0,
+                  scale: 1,
+                  transition: {
+                    duration: 0.5,
+                    delay: 0.2,
+                    type: "spring",
+                    stiffness: 200
+                  }
+                }}
+                whileHover={{ 
+                  scale: 1.1,
+                  transition: { duration: 0.2 }
+                }}
+              />
+              
+              <motion.nav className="w-full">
+                <motion.ul 
+                  className="space-y-6 px-8"
+                  initial="closed"
+                  animate="open"
+                  variants={{
+                    open: {
+                      transition: { staggerChildren: 0.07, delayChildren: 0.2 }
+                    },
+                    closed: {
+                      transition: { staggerChildren: 0.05, staggerDirection: -1 }
+                    }
+                  }}
+                >
+                  {/* NavItems залишаються без змін */}
+                  <NavItem 
+                    to="/"
+                    icon={<PermIdentityIcon className="text-red-500" />}
+                    text="Загальне"
+                    isActive={activeItem === 'Item1'}
+                    onClick={() => handleNavItemClick('Item1')}
+                  />
+                  <NavItem 
+                    to="/payment"
+                    icon={<PaidIcon className="text-red-500" />}
+                    text="Оплати"
+                    isActive={activeItem === 'Item2'}
+                    onClick={() => handleNavItemClick('Item2')}
+                  />
+                  <NavItem 
+                    to="/info"
+                    icon={<InfoIcon className="text-red-500" />}
+                    text="Додатково"
+                    isActive={activeItem === 'Item3'}
+                    onClick={() => handleNavItemClick('Item3')}
+                  />
+                  <NavItem 
+                    to="/news"
+                    icon={<NewspaperIcon className="text-red-500" />}
+                    text="Новини"
+                    isActive={activeItem === 'Item4'}
+                    onClick={() => handleNavItemClick('Item4')}
+                  />
+                  {configCabinet.additional?.showStore && (
+                    <NavItem 
+                      to="/intelekt-shop"
+                      icon={<ShoppingBasketIcon className="text-red-500" />}
+                      text="Магазин"
+                      isActive={activeItem === 'Item5'}
+                      onClick={() => handleNavItemClick('Item5')}
+                    />
+                  )}
+                  
+                  <motion.li 
+                    className="mt-8"
+                    variants={{
+                      open: { opacity: 1, y: 0 },
+                      closed: { opacity: 0, y: 20 }
+                    }}
+                  >
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setExitDialogOpen(true)}
+                      className="w-full flex items-center p-3 rounded-lg text-black hover:bg-red-50 transition-colors justify-center"
+                    >
+                      <LogoutIcon className="mr-3 text-red-500" />
+                      <span>LogOut</span>
+                    </motion.button>
+                  </motion.li>
+                </motion.ul>
+              </motion.nav>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <ExitDialog 
+        open={exitDialogOpen}
+        handleClose={() => setExitDialogOpen(false)}
+        handleLogOuth={handleLogOut}
+      />
+    </div>
   );
-}
+};
+const NavItem = ({ to, icon, text, isActive, onClick }) => (
+  <motion.li
+    variants={{
+      open: { opacity: 1, y: 0 },
+      closed: { opacity: 0, y: 20 }
+    }}
+  >
+    <NavLink
+      to={to}
+      onClick={onClick}
+      className={`
+        flex items-center p-3 rounded-lg
+        transition-all duration-200
+        ${isActive 
+          ? 'bg-red-50 text-black shadow-sm' 
+          : 'text-black hover:bg-red-50'
+        }
+      `}
+    >
+      <motion.span 
+        className="mr-3"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
+        {icon}
+      </motion.span>
+      <span>{text}</span>
+    </NavLink>
+  </motion.li>
+);
+
+export default Navigation;
