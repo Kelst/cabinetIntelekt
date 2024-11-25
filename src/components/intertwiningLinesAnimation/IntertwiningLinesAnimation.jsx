@@ -54,7 +54,7 @@ const IntertwiningLinesAnimation = () => {
         <motion.path
           d="M10,0 Q30,25 10,50 Q30,75 10,100"
           stroke="#0057b7"
-          strokeWidth="20"
+          strokeWidth="10"
           fill="none"
           variants={lineVariants}
           initial="hidden"
@@ -64,7 +64,7 @@ const IntertwiningLinesAnimation = () => {
         <motion.path
           d="M30,0 Q10,25 30,50 Q10,75 30,100"
           stroke="#ffd700"
-          strokeWidth="20"
+          strokeWidth="10"
           fill="none"
           variants={lineVariants}
           initial="hidden"
