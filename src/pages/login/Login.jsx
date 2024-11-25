@@ -243,6 +243,8 @@ export default function Login() {
           bgcolor:"red",
           opacity:0.9,
           zIndex: 1,
+          backgroundImage: `url(${imageUrl.logo})`,
+
           '&::before': {
             backgroundImage: `url(${imageUrl.logo})`,
 
