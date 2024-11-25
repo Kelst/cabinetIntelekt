@@ -104,7 +104,7 @@ export default function GlazmorphizmCard({ tarriffList = [], tariff, handleClose
     };
 
     return (
-        <div className='flex justify-center items-center min-h-[100%] bg-[#2c2c2c] bg-fixed rounded-md'>
+        <div className='flex justify-center items-center min-h-[100%]  bg-fixed rounded-md'>
             <div className={clases.container}>
                 {sortedTariffList.map((e, i) => {
                     const tariffInfo = extractInfo(e);

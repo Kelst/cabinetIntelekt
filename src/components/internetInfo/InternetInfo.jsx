@@ -27,7 +27,14 @@ const iconVariants = {
 };
 
 const InfoItem = ({ icon: Icon, label, value }) => (
-  <div className="flex items-center py-3 border-b border-gray-700 last:border-b-0">
+  <motion.div 
+    className="flex items-center py-3 border-b border-gray-700 last:border-b-0"
+    whileHover={{ 
+      x: 5,
+      backgroundColor: "rgba(255, 255, 255, 0.05)",
+      transition: { duration: 0.2 }
+    }}
+  >
     <motion.div 
       className="mr-3 perspective-400"
       variants={iconVariants}
@@ -35,11 +42,19 @@ const InfoItem = ({ icon: Icon, label, value }) => (
     >
       <Icon className="w-5 h-5 flex-shrink-0 text-gray-400" />
     </motion.div>
-    <div className={`flex flex-col ${label === 'Тарифний план' ? 'sm:flex-col' : 'sm:flex-row'} sm:justify-between sm:items-center w-full`}>
+    <motion.div 
+      className={`flex flex-col ${label === 'Тарифний план' ? 'sm:flex-col' : 'sm:flex-row'} sm:justify-between sm:items-center w-full`}
+      whileHover={{ color: "#6366f1" }}
+    >
       <span className="text-sm text-gray-400 sm:text-base sm:mr-4">{label}</span>
-      <span className="font-medium text-gray-200 mt-1 sm:mt-0">{value || 'N/A'}</span>
-    </div>
-  </div>
+      <motion.span 
+        className="font-medium text-gray-200 mt-1 sm:mt-0"
+        whileHover={{ scale: 1.05 }}
+      >
+        {value || 'N/A'}
+      </motion.span>
+    </motion.div>
+  </motion.div>
 );
 
 const InternetInfo = ({ style }) => {
@@ -58,7 +73,10 @@ const InternetInfo = ({ style }) => {
   const isStaticIp = useStore(state => state.user.isStaticIp);
 
   return (
-    <div className={`bg-black p-4 sm:p-6 rounded-md shadow-md ${style.animationBorder}`}>
+    <motion.div 
+      className={`bg-black p-4 sm:p-6 rounded-md shadow-md ${style.animationBorder}`}
+      whileHover={{ boxShadow: "0 0 15px rgba(255, 0, 0, 0.3)" }}
+    >
       <h2 className="text-xl font-bold mb-4 sm:mb-6 text-red-500 flex items-center">
         <motion.div 
           className="mr-2 perspective-400"
@@ -73,13 +91,13 @@ const InternetInfo = ({ style }) => {
         <InfoItem icon={WifiIcon} label="Тарифний план" value={user?.tariff} />
         <InfoItem icon={SpeedIcon} label="Швидкість" value={tariffInfo.speed} />
         <InfoItem icon={PriceIcon} label="Ціна" value={tariffInfo.price} />
-        <InfoItem icon={IpIcon} label="IP" value={user?.ip} />{isStaticIp? <CancelStaticIpButton/>:<></>}
+        <InfoItem icon={IpIcon} label="IP" value={user?.ip} />
+        {isStaticIp && <CancelStaticIpButton/>}
         <InfoItem icon={DurationIcon} label="Тривалість" value={user?.duration} />
         <InfoItem icon={UploadIcon} label="Відправлено" value={`${user?.sendData} GB`} />
         <InfoItem icon={DownloadIcon} label="Отримано" value={`${user?.getData} GB`} />
-        {/* <InfoItem icon={DownloadIcon} label="Отримано" value={`${user?.guestIp}`} /> */}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

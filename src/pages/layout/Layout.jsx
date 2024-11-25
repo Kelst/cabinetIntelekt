@@ -34,7 +34,8 @@ export default function Layout() {
       "/": "Item1",
       "/payment": "Item2",
       "/info": "Item3",
-      "/news": "Item4"
+      "/news": "Item4",
+      "/intelekt-shop": "Item5"
     };
     setActiveItem(routes[location.pathname] || "Item1");
   }, [location, showCursor]);
@@ -59,7 +60,7 @@ export default function Layout() {
         muted
         className="fixed inset-0 w-full h-full object-cover -z-10"
       >
-        <source src="assets/hsv4.mp4" type="video/mp4" />
+        <source src="src/assets/hsv4.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
@@ -84,16 +85,16 @@ export default function Layout() {
       </div>
 
       {showButton && (
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-5 right-4 z-50 p-4 transition-opacity hover:opacity-80"
-        >
-          <img 
-            src={hand} 
-            alt="Scroll to top" 
-            className="w-12 h-12 animate-bounce"
-          />
-        </button>
+       <button
+       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+       className="fixed bottom-5 right-4 z-50 p-4 transition-opacity hover:opacity-80 text-white"
+     >
+       <img 
+         src={hand} 
+         alt="Scroll to top" 
+         className="w-12 h-12 animate-bounce filter invert brightness-100"
+       />
+     </button>
       )}
     </div>
   );

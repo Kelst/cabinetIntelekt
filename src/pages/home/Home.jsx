@@ -128,7 +128,6 @@ const user = useStore(state => state.userData);
     handleReloadSession={handleReloadSession}
     handleCid={handleCid}
   />
-
           <PaymentInfo 
     // user={user}
     style={style}

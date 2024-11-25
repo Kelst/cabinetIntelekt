@@ -26,8 +26,8 @@ export default function TariffDialog({ open, handleClose }) {
       fullWidth
       maxWidth="lg"
     >
-      <div className="relative pt-8 pb-6 px-4">
-        <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-red-800/10 to-red-500/10" />
+      <div className="relative pt-8 pb-6 px-4 bg-black">
+        <div className="absolute inset-0 bg-gradient-to-r" />
         
         <div className="relative flex flex-col items-center gap-2">
           <div className="w-16 h-0.5 bg-gradient-to-r from-red-300 to-orange-500 rounded-full" />

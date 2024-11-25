@@ -8,12 +8,12 @@ import {
   RefreshCw as MonthlyIcon,
   Percent as PercentS,
   Clock as LastPaymentIcon,
-  Package
+  Package,
+  Pause
 } from 'lucide-react';
 import MysteriousText from '../MysteriousText/MysteriousText';
 import CountdownTimer from '../сountdownTimer/CountdownTimer';
 import useStore from '../../store/store';
-import { Pause } from 'lucide-react';
 
 const iconVariants = {
   animate: {
@@ -29,10 +29,17 @@ const iconVariants = {
 };
 
 const PaymentInfo = ({ style }) => {
-   const user = useStore(state => state.userData);
+  const user = useStore(state => state.userData);
 
   const InfoItem = ({ icon: Icon, label, value, children }) => (
-    <div className="flex items-center py-3 border-b border-gray-700 last:border-b-0">
+    <motion.div 
+      className="flex items-center py-3 border-b border-gray-700 last:border-b-0"
+      whileHover={{ 
+        x: 5,
+        backgroundColor: "rgba(255, 255, 255, 0.05)",
+        transition: { duration: 0.2 }
+      }}
+    >
       <motion.div
         className="mr-3 perspective-400"
         variants={iconVariants}
@@ -40,36 +47,38 @@ const PaymentInfo = ({ style }) => {
       >
         <Icon className="w-5 h-5 flex-shrink-0 text-gray-400" />
       </motion.div>
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center w-full">
+      <motion.div 
+        className="flex flex-col sm:flex-row sm:justify-between sm:items-center w-full"
+        whileHover={{ color: "#6366f1" }}
+      >
         <span className="text-sm text-gray-400 sm:text-base sm:mr-4">{label}</span>
-        <span className="font-medium text-gray-200 mt-1 sm:mt-0">{value}</span>
-      </div>
+        <motion.span 
+          className="font-medium text-gray-200 mt-1 sm:mt-0"
+          whileHover={{ scale: 1.02 }}
+        >
+          {value}
+        </motion.span>
+      </motion.div>
       {children}
-    </div>
+    </motion.div>
   );
+
   const AdditionalServices = ({ addServicePrice }) => {
-    const iconVariants = {
-      animate: {
-        rotateY: [0, 10, 0, -10, 0],
-        rotateX: [0, 5, 10, 5, 0],
-        filter: ["brightness(1)", "brightness(1.2)", "brightness(1.4)", "brightness(1.2)", "brightness(1)"],
-        transition: {
-          duration: 5,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }
-      }
-    };
-  
     return (
-      <div className="flex flex-col py-3 border-b border-gray-700 last:border-b-0 bg-gradient-to-r from-red-900/20 to-transparent hover:from-red-800/30 transition-all duration-300">
+      <motion.div 
+        className="flex flex-col py-3 border-b border-gray-700 last:border-b-0 bg-gradient-to-r from-red-900/20 to-transparent"
+        whileHover={{ 
+          backgroundColor: "rgba(255, 255, 255, 0.05)",
+          scale: 1.01,
+          transition: { duration: 0.2 }
+        }}
+      >
         <div className="flex items-center mb-2">
           <motion.div
             className="mr-3 perspective-400"
             variants={iconVariants}
             animate="animate"
           >
-            
             <Package className="w-5 h-5 flex-shrink-0 text-red-400" />
           </motion.div>
           <span className="text-sm text-gray-400 sm:text-base">Додаткові послуги</span>
@@ -79,26 +88,38 @@ const PaymentInfo = ({ style }) => {
           {addServicePrice?.services.length > 0 ? (
             <>
               {addServicePrice.services.map((service, index) => (
-                <div key={index} className="flex justify-between items-center">
+                <motion.div 
+                  key={index} 
+                  className="flex justify-between items-center"
+                  whileHover={{ x: 2, transition: { duration: 0.2 } }}
+                >
                   <span className="text-sm text-gray-400">{service.name}</span>
                   <span className="text-red-300">{service.price} грн</span>
-                </div>
+                </motion.div>
               ))}
-              <div className="flex justify-between items-center pt-2 border-t border-gray-700">
+              <motion.div 
+                className="flex justify-between items-center pt-2 border-t border-gray-700"
+                whileHover={{ x: 2, transition: { duration: 0.2 } }}
+              >
                 <span className="text-sm font-medium text-gray-400">Загалом</span>
                 <span className="font-medium text-red-300">{addServicePrice.total_price} грн</span>
-              </div>
+              </motion.div>
             </>
           ) : (
             <span className="text-sm text-gray-500 italic">Додаткові послуги відсутні</span>
           )}
         </div>
-      </div>
+      </motion.div>
     );
   };
+
   const PayButton = () => (
     <NavLink to="/payment" className="mt-2 sm:mt-0 sm:ml-4 w-full sm:w-auto">
-      <div className={`${style.animationBorderSM} cursor-pointer relative inline-flex items-center justify-center p-3 px-5 overflow-hidden font-medium text-sm transition duration-300 ease-out border-2 rounded-full group w-full sm:w-auto`}>
+      <motion.div 
+        className={`${style.animationBorderSM} cursor-pointer relative inline-flex items-center justify-center p-3 px-5 overflow-hidden font-medium text-sm transition duration-300 ease-out border-2 rounded-full group w-full sm:w-auto`}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+      >
         <span className="absolute inset-0 flex items-center justify-center w-full h-full duration-300 -translate-x-full bg-red-500 group-hover:translate-x-0 ease">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </span>
@@ -106,7 +127,7 @@ const PaymentInfo = ({ style }) => {
           Оплатити
         </span>
         <span className="relative invisible">Оплатити</span>
-      </div>
+      </motion.div>
     </NavLink>
   );
 
@@ -124,7 +145,10 @@ const PaymentInfo = ({ style }) => {
   }
 
   return (
-    <div className={`bg-black  p-4 sm:p-6 rounded-md shadow-md ${style.animationBorder}`}>
+    <motion.div 
+      className={`bg-black p-4 sm:p-6 rounded-md shadow-md ${style.animationBorder}`}
+      whileHover={{ boxShadow: "0 0 15px rgba(255, 0, 0, 0.3)" }}
+    >
       <h2 className="text-xl font-bold mb-4 sm:mb-6 text-red-500 flex items-center">
         <motion.div
           className="mr-2 perspective-400"
@@ -152,22 +176,24 @@ const PaymentInfo = ({ style }) => {
           icon={PercentS} 
           label="Знижка" 
           value={`${user?.reduction} %`}
-        >
-        </InfoItem>
+        />
         <div className="pt-3">
-          {
-           user?.status? <CountdownTimer />:<div className="flex items-center justify-center p-4 bg-red-100 rounded-lg shadow-md animate-pulse">
-           <Pause className="w-6 h-6 text-red-500 mr-2 animate-bounce" />
-           <span className="text-red-700 font-semibold text-lg">
-             Послугу призупинено
-           </span>
-         </div>
-
+          {user?.status ? 
+            <CountdownTimer /> : 
+            <motion.div 
+              className="flex items-center justify-center p-4 bg-red-100 rounded-lg shadow-md animate-pulse"
+              whileHover={{ scale: 1.02 }}
+            >
+              <Pause className="w-6 h-6 text-red-500 mr-2 animate-bounce" />
+              <span className="text-red-700 font-semibold text-lg">
+                Послугу призупинено
+              </span>
+            </motion.div>
           }
           <AdditionalServices addServicePrice={user?.addServicePrice} />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

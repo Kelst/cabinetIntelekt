@@ -40,6 +40,7 @@
     "react-swipeable-views-react-18-fix": "^0.14.1",
     "react-swipeable-views-v18": "^1.1.27",
     "react-timer-hook": "^3.0.7",
+    "recharts": "^2.13.3",
     "zustand": "^4.4.2"
   },
   "devDependencies": {

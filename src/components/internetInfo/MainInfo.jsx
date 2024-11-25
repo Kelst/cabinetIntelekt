@@ -6,11 +6,9 @@ import {
   Wifi as InternetIcon,
   User as UserIcon,
   RefreshCw as RefreshIcon,
-  Lock as PasswordIcon
+  Lock as PasswordIcon,
+  Router
 } from 'lucide-react';
-
-import { Router } from 'lucide-react';
-
 import { IconButton, Tooltip } from '@mui/material';
 import ModeEditOutlineTwoToneIcon from '@mui/icons-material/ModeEditOutlineTwoTone';
 import MysteriousText from '../MysteriousText/MysteriousText';
@@ -36,12 +34,19 @@ const iconVariants = {
   }
 };
 
-const MainInfo = ({ style, handleEditPhone, handleStopPlayLogin, handleReloadSession, handleCid,handleEditPassword }) => {
+const MainInfo = ({ style, handleEditPhone, handleStopPlayLogin, handleReloadSession, handleCid, handleEditPassword }) => {
   const user = useStore(state => state.userData);
   const configCabinet = useConfigPage(state => state.configCabinet);
   
   const InfoItem = ({ icon: Icon, label, value, children }) => (
-    <div className="flex items-center py-3 border-b border-gray-700 last:border-b-0">
+    <motion.div 
+      className="flex items-center py-3 border-b border-gray-700 last:border-b-0"
+      whileHover={{ 
+        x: 5,
+        backgroundColor: "rgba(255, 255, 255, 0.05)",
+        transition: { duration: 0.2 }
+      }}
+    >
       <motion.div
         className="mr-3 perspective-400"
         variants={iconVariants}
@@ -49,19 +54,28 @@ const MainInfo = ({ style, handleEditPhone, handleStopPlayLogin, handleReloadSes
       >
         <Icon className="w-5 h-5 flex-shrink-0 text-gray-400" />
       </motion.div>
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center w-full">
+      <motion.div 
+        className="flex flex-col sm:flex-row sm:justify-between sm:items-center w-full"
+        whileHover={{ color: "#6366f1" }}
+      >
         <span className="text-sm text-gray-400 sm:text-base sm:mr-4">{label}</span>
-        <div className="font-medium text-gray-200 mt-1 sm:mt-0 flex items-center">
+        <motion.div 
+          className="font-medium text-gray-200 mt-1 sm:mt-0 flex items-center"
+          whileHover={{ scale: 1.02 }}
+        >
           {value}
           {children}
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 
   return (
-    <div className={`bg-black p-4 sm:p-6 rounded-md shadow-md ${style.animationBorder}`}>
-            <TelegramAdButton/>
+    <motion.div 
+      className={`bg-black p-4 sm:p-6 rounded-md shadow-md ${style.animationBorder}`}
+      whileHover={{ boxShadow: "0 0 15px rgba(255, 0, 0, 0.3)" }}
+    >
+      <TelegramAdButton/>
       <h2 className="text-xl font-bold mb-4 sm:mb-6 text-red-500 flex items-center">
         <motion.div
           className="mr-2 perspective-400"
@@ -78,16 +92,17 @@ const MainInfo = ({ style, handleEditPhone, handleStopPlayLogin, handleReloadSes
           label="Телефон" 
           value={user?.phone}
         >
-          {
-            configCabinet.home.editPhone?
-           <Tooltip title="Змінити номер телефону" arrow>
-          <IconButton aria-label="edited" onClick={handleEditPhone} className="ml-2">
-            <ModeEditOutlineTwoToneIcon className="text-gray-300" fontSize="small" />
-          </IconButton>
-          </Tooltip>
-          :<></>
+          {configCabinet.home.editPhone &&
+            <Tooltip title="Змінити номер телефону" arrow>
+              <IconButton 
+                aria-label="edited" 
+                onClick={handleEditPhone} 
+                className="ml-2"
+              >
+                <ModeEditOutlineTwoToneIcon className="text-gray-300" fontSize="small" />
+              </IconButton>
+            </Tooltip>
           }
-          
         </InfoItem>
         <InfoItem icon={AddressIcon} label="Адреса" value={user?.address} />
         <InfoItem 
@@ -96,27 +111,34 @@ const MainInfo = ({ style, handleEditPhone, handleStopPlayLogin, handleReloadSes
           value={
             user?.statusInternet 
               ? (
-                <div className="inline-flex justify-center items-center gap-2" >
+                <div className="inline-flex justify-center items-center gap-2">
                   <AnimatedRocket type="active" />
                   Active
-                  { configCabinet.home.reloadSesion?
+                  {configCabinet.home.reloadSesion &&
                     <Tooltip title="Перезавантажити сесію" arrow>
-                    <IconButton size="small" className="ml-2" onClick={handleReloadSession}>
-                      <RefreshIcon className="w-4 h-4 text-gray-300" />
-                    </IconButton>
-                  </Tooltip>:<></>}
+                      <IconButton size="small" className="ml-2" onClick={handleReloadSession}>
+                        <RefreshIcon className="w-4 h-4 text-gray-300" />
+                      </IconButton>
+                    </Tooltip>
+                  }
                 </div>
               )
-              : <div className="inline-flex justify-center items-center gap-2"><AnimatedRocket type="inactive" /> Inactive <NetworkDiagnostics/></div>
+              : <div className="inline-flex justify-center items-center gap-2">
+                  <AnimatedRocket type="inactive" /> Inactive <NetworkDiagnostics/>
+                </div>
           } 
         />
-        <InfoItem icon={Router} label="MAC" value={
-          <Tooltip title="Інтернет сесія працює на цьому mac-адресі" arrow>
-            <IconButton size="small" className="ml-2" >
-              <div className='text-white'>{user?.cid}</div> 
-            </IconButton>
-          </Tooltip>
-        } />
+        <InfoItem 
+          icon={Router} 
+          label="MAC" 
+          value={
+            <Tooltip title="Інтернет сесія працює на цьому mac-адресі" arrow>
+              <IconButton size="small" className="ml-2">
+                <div className='text-white'>{user?.cid}</div> 
+              </IconButton>
+            </Tooltip>
+          } 
+        />
         <InfoItem 
           icon={UserIcon} 
           label="Стан логіну" 
@@ -131,20 +153,31 @@ const MainInfo = ({ style, handleEditPhone, handleStopPlayLogin, handleReloadSes
           label="Пароль" 
           value="********"
         >
-         { configCabinet.home.changePassword?
-          <Tooltip title="Змінити пароль для входу" arrow>
-            <IconButton aria-label="change password" onClick={handleEditPassword} className="ml-2">
-              <ModeEditOutlineTwoToneIcon className="text-gray-300" fontSize="small" />
-            </IconButton>
-          </Tooltip>:<></>}
+          {configCabinet.home.changePassword &&
+            <Tooltip title="Змінити пароль для входу" arrow>
+              <IconButton 
+                aria-label="change password" 
+                onClick={handleEditPassword} 
+                className="ml-2"
+              >
+                <ModeEditOutlineTwoToneIcon className="text-gray-300" fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          }
         </InfoItem>
       </div>
-      <div className="mt-4">
-       { configCabinet.home.stopPlayLogin?
-        <GlasmorphizmButton label={user?.status ? `Призупинити логін` : 'Активувати логін'} handleAction={handleStopPlayLogin} />:<></>
+      <motion.div 
+        className="mt-4"
+        whileHover={{ scale: 1.02 }}
+      >
+        {configCabinet.home.stopPlayLogin &&
+          <GlasmorphizmButton 
+            label={user?.status ? `Призупинити логін` : 'Активувати логін'} 
+            handleAction={handleStopPlayLogin} 
+          />
         }
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
