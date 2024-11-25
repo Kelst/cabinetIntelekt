@@ -19,6 +19,7 @@ const AnimatedText = ({ children, delay = 0 }) => (
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5, delay }}
+    className="hover:transform hover:scale-105 transition-all duration-300"
   >
     {children}
   </motion.div>
@@ -26,8 +27,10 @@ const AnimatedText = ({ children, delay = 0 }) => (
 
 const HelpSection = ({ title, content, delay }) => (
   <AnimatedText delay={delay}>
-    <h2 className="text-2xl font-semibold text-blue-600 mb-2">{title}</h2>
-    <p className="leading-relaxed text-gray-700 mb-4">{content}</p>
+    <div className="p-4 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 border border-red-100">
+      <h2 className="text-2xl font-semibold text-red-600 mb-2">{title}</h2>
+      <p className="leading-relaxed text-gray-800 mb-4">{content}</p>
+    </div>
   </AnimatedText>
 );
 
@@ -65,53 +68,72 @@ export default function ControlPanelDialog({ open, handleClose }) {
       aria-describedby="alert-dialog-slide-description"
       PaperProps={{
         style: {
-          backgroundColor: '#f5f5f5',
+          backgroundColor: '#ffffff',
           borderRadius: '16px',
-          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+          boxShadow: '0 4px 30px rgba(220, 38, 38, 0.1)',
+          maxWidth: '700px',
+          width: '100%'
         },
       }}
     >
-      <DialogTitle className="text-center text-3xl font-bold text-blue-600 pb-4 border-b border-gray-300">
+      <DialogTitle className="text-center text-3xl font-bold text-red-600 pb-4 border-b border-red-100">
         Довідка
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: 'rgb(220, 38, 38)',
+            '&:hover': {
+              color: 'rgb(185, 28, 28)',
+              transform: 'scale(1.1)',
+            },
+            transition: 'all 0.3s ease'
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
       </DialogTitle>
-      <IconButton
-        aria-label="close"
-        onClick={handleClose}
-        sx={{
-          position: 'absolute',
-          right: 8,
-          top: 8,
-          color: 'rgba(0, 0, 0, 0.5)',
-        }}
-      >
-        <CloseIcon />
-      </IconButton>
-      <DialogContent className="bg-white">
-        <div className="p-6 space-y-6 text-gray-800">
-        {helpSections.map((section, index) => {
- const shouldShow = {
-   'Очистити MAC': configCabinet.home.clearMac,
-   'Встановити кредит': configCabinet.home.setCredit,
-   'Додаткові послуги': configCabinet.home.additionalService,
-   'Статична IP': configCabinet.home.staticIp,
-   'Тарифні плани': configCabinet.home.tariffPlans
- }[section.title];
+      <DialogContent className="bg-gradient-to-b from-white to-gray-50">
+        <div className="p-6 space-y-6">
+          {helpSections.map((section, index) => {
+            const shouldShow = {
+              'Очистити MAC': configCabinet.home.clearMac,
+              'Встановити кредит': configCabinet.home.setCredit,
+              'Додаткові послуги': configCabinet.home.additionalService,
+              'Статична IP': configCabinet.home.staticIp,
+              'Тарифні плани': configCabinet.home.tariffPlans
+            }[section.title];
 
- return shouldShow ? (
-   <HelpSection 
-     key={index} 
-     title={section.title} 
-     content={section.content} 
-     delay={0.1 * (index + 1)}
-   />
- ) : null;
-})}
+            return shouldShow ? (
+              <HelpSection 
+                key={index} 
+                title={section.title} 
+                content={section.content} 
+                delay={0.1 * (index + 1)}
+              />
+            ) : null;
+          })}
         </div>
       </DialogContent>
-      <DialogActions className="bg-gray-100 p-4">
+      <DialogActions className="bg-gray-50 p-4 border-t border-red-100">
         <Button 
           onClick={handleClose}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105"
+          sx={{
+            backgroundColor: 'rgb(220, 38, 38)',
+            color: 'white',
+            borderRadius: '9999px',
+            padding: '8px 24px',
+            textTransform: 'none',
+            fontWeight: 'bold',
+            '&:hover': {
+              backgroundColor: 'rgb(185, 28, 28)',
+              transform: 'scale(1.05)',
+            },
+            transition: 'all 0.3s ease'
+          }}
         >
           Зрозуміло
         </Button>

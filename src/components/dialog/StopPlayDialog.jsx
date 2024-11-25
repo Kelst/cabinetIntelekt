@@ -36,7 +36,7 @@ export default function StopPlayDialog({open, handleClose}) {
     try {
       setLoader(true)
 
-        result=await stopPlayLogin(user.uid)
+        result=await stopPlayLogin(user.uid,user.login,user.balance,user.billId,user.payAll)
      
     } catch (error) {
       showAllert(0,"Виникла помилка при призупиненні/активації послуги")

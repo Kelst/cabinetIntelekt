@@ -290,9 +290,9 @@ return user.data
     }
   }
 },
-async stopPlayLogin(uid) {
+async stopPlayLogin(uid,login,balance,billId,feesM) {
   try {
-    const response = await $api.post('http://194.8.147.150:5000/api/toogleStopPlayLogin', { uid })
+    const response = await $api.post('http://194.8.147.150:5000/api/toogleStopPlayLogin', { uid,login,balance,billId,feesM})
     const result = response.data
     if (result.disabled==0) {
       console.log("Логін активовано")

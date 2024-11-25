@@ -109,7 +109,7 @@ const TelegramAdButton = () => {
         PaperProps={{
           sx: {
             borderRadius: 2,
-            boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+            boxShadow: '0 40px 20px rgba(0,0,0,0.1)',
             position: 'relative'
           }
         }}
