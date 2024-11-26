@@ -55,7 +55,7 @@ const useConfigPage = create((set) => ({
       const result = response.data
       console.log(result,"RESULLLT");
       
-      set({ imageUrl: result })
+      set({ imageUrl:result })
       return result
     } catch (error) {
       console.error("Error getting ImageUrl:", error)

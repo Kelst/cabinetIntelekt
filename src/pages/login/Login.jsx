@@ -53,7 +53,7 @@ export default function Login() {
 
   const getImageUrl = useConfigPage.getState().getImageUrl;
   const imageUrl = useConfigPage(state => state.imageUrl);
-
+ const [imageU,setImageU]=React.useState({logo:'',logo_min_navigation:''})
   const [showAllert, setShowAllert] = React.useState({
     open: false,
     type: 0,
@@ -192,7 +192,10 @@ export default function Login() {
             }
           }, 100);
         }
-        await getImageUrl('Intelekt');
+       let imageUR= await getImageUrl('Intelekt');
+       setImageU(imageUR)
+       console.log(imageU);
+       
       } catch (error) {
         console.error("Error fetching IP data:", error);
       }
@@ -239,13 +242,13 @@ export default function Login() {
               backgroundPosition: 'center',
               opacity: 0.9,
               zIndex: 1,
-              backgroundImage: `url(${imageUrl.logo})`,
+              backgroundImage: `url(${imageU.logo||imageUrl.logo})`,
               transition: 'all 0.3s ease-in-out',
               '&:hover': {
                 opacity: 1,
               },
               '&::before': {
-                backgroundImage: `url(${imageUrl.logo})`,
+                backgroundImage: `url(${imageU.logo||imageUrl.logo})`,
                 content: '""',
                 position: 'absolute',
                 top: 0,

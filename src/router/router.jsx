@@ -44,7 +44,10 @@ async function loginLoader() {
   try {
     const checkUser = useStore.getState().checkUser;
     const flag = await checkUser();
-    
+    const getImageUrl = useConfigPage.getState().getImageUrl;
+    await getImageUrl("Intelekt")
+
+     const imageUrl = useConfigPage(state => state.imageUrl);
     if (flag.isAuth) {
       return redirect("/home");
     }
