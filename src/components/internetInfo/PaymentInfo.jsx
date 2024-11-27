@@ -185,11 +185,11 @@ const PaymentInfo = ({ style }) => {
         >
           <PayButton />
         </InfoItem>
-        <InfoItem 
+       {user?.reduction!==0 ?<InfoItem 
           icon={PercentS} 
           label="Знижка" 
           value={`${user?.reduction} %`}
-        />
+        />:<></>}
         <div className="pt-3">
           {user?.status ? 
             <CountdownTimer /> : 

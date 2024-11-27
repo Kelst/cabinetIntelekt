@@ -132,7 +132,7 @@ const CancelStaticIpButton = () => {
             }}
             variant="contained"
           >
-            Відмінити статичну IP
+            Вимкнути статичну IP
           </Button>
         </DialogActions>
       </Dialog>

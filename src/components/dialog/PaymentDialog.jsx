@@ -92,11 +92,11 @@ export default function PaymentDialog({open, handleClose, type}) {
         }
       ];
       
-      // Safely add subLogin if it exists
-      if (user.subLogin && user.subLogin[0]) {
-        result.push(user.subLogin[0]);
+      // Додаємо всі subLogin, якщо вони існують
+      if (user.subLogin && Array.isArray(user.subLogin)) {
+        result.push(...user.subLogin);
       }
-
+  
       setSubLogin(result);
       setSumText(user.monthlyPayment || '0');
       setLogin('0');

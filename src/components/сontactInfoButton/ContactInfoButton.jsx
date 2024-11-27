@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { IconButton, Popover, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
+import { IconButton, Popover, List, ListItem, ListItemText, ListItemIcon, Typography } from '@mui/material';
 import { Phone, ContentCopy } from '@mui/icons-material';
 import { useSpring, animated } from 'react-spring';
+import useConfigPage from '../../store/configPage';
 
 const ContactInfoButton = ({ iconColor }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [copiedNumber, setCopiedNumber] = useState('');
+  const [copiedphone, setCopiedphone] = useState('');
   const [copiedItemIndex, setCopiedItemIndex] = useState(null);
 
   const handleClick = (event) => {
@@ -16,22 +17,22 @@ const ContactInfoButton = ({ iconColor }) => {
     setAnchorEl(null);
   };
 
-  const handleCopyNumber = (number, index) => {
-    navigator.clipboard.writeText(number).then(() => {
-      setCopiedNumber(number);
+  const handleCopyphone = (phone, index) => {
+    navigator.clipboard.writeText(phone).then(() => {
+      setCopiedphone(phone);
       setCopiedItemIndex(index);
     });
   };
 
   useEffect(() => {
-    if (copiedNumber) {
+    if (copiedphone) {
       const timer = setTimeout(() => {
-        setCopiedNumber('');
+        setCopiedphone('');
         setCopiedItemIndex(null);
       }, 1000);
       return () => clearTimeout(timer);
     }
-  }, [copiedNumber]);
+  }, [copiedphone]);
 
   const open = Boolean(anchorEl);
 
@@ -39,17 +40,18 @@ const ContactInfoButton = ({ iconColor }) => {
     opacity: open ? 1 : 0,
     transform: open ? 'scale(1)' : 'scale(0.8)',
   });
+  const configCabinet = useConfigPage(state => state.configCabinet);
 
-  const callCenterNumbers = [
-    { number: '0997043200', label: 'Технічна підтримка' },
-    { number: '0987043200', label: '' },
-    { number: '0977043200', label: '' },
-    { number: '0967043200', label: '' },
-    { number: '0957043200', label: '' },
-    { number: '0777043200', label: '' },
-    { number: '0737043200', label: '' },
-    { number: '0687043200', label: '' }
-  ];
+  // const callCenterphones = [
+  //   { phone: '0997043200', label: 'Технічна підтримка' },
+  //   { phone: '0987043200', label: '' },
+  //   { phone: '0977043200', label: '' },
+  //   { phone: '0967043200', label: '' },
+  //   { phone: '0957043200', label: '' },
+  //   { phone: '0777043200', label: '' },
+  //   { phone: '0737043200', label: '' },
+  //   { phone: '0687043200', label: '' }
+  // ];
 
   return (
     <>
@@ -70,8 +72,10 @@ const ContactInfoButton = ({ iconColor }) => {
         }}
       >
         <animated.div style={animationProps}>
+          <div className=' flex items-center justify-center font-bold mt-1'>Технічна підтримка</div>
           <List>
-            {callCenterNumbers.map((item, index) => (
+            
+            {configCabinet.phoneNumbers.map((item, index) => (
               <ListItem
                 key={index}
                 secondaryAction={
@@ -79,7 +83,7 @@ const ContactInfoButton = ({ iconColor }) => {
                     <IconButton
                       edge="end"
                       aria-label="copy"
-                      onClick={() => handleCopyNumber(item.number, index)}
+                      onClick={() => handleCopyphone(item.phone, index)}
                     >
                       <ContentCopy />
                     </IconButton>
@@ -97,7 +101,7 @@ const ContactInfoButton = ({ iconColor }) => {
                           whiteSpace: 'nowrap',
                         }}
                       >
-                        Скопійовано: {copiedNumber}
+                        Скопійовано: {copiedphone}
                       </div>
                     )}
                   </div>
@@ -106,7 +110,7 @@ const ContactInfoButton = ({ iconColor }) => {
                 <ListItemIcon>
                   <Phone />
                 </ListItemIcon>
-                <ListItemText primary={item.label} secondary={item.number} />
+                <ListItemText primary={item.label} secondary={item.phone} />
               </ListItem>
             ))}
           </List>
