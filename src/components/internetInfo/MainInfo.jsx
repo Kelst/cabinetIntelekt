@@ -71,6 +71,7 @@ const MainInfo = ({ style, handleEditPhone, handleStopPlayLogin, handleReloadSes
   );
 
   return (
+    
     <motion.div 
       className={`bg-black p-4 sm:p-6 rounded-md shadow-md ${style.animationBorder}`}
       whileHover={{ boxShadow: "0 0 15px rgba(255, 0, 0, 0.3)" }}

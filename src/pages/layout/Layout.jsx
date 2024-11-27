@@ -20,7 +20,17 @@ export default function Layout() {
   const showCursor = useInfoStore(state => state.showCursor);
   const setLoader = useInfoStore(store => store.setLoader);
   const [showButton, setShowButton] = useState(false);
-
+  useEffect(() => {
+    const checkAuthData = () => {
+        const authData = localStorage.getItem('authData');
+        console.log('Current auth data:', authData ? JSON.parse(authData) : null);
+    };
+    
+    checkAuthData();
+    const interval = setInterval(checkAuthData, 5000);
+    
+    return () => clearInterval(interval);
+}, []);
   useEffect(() => {
     setLoader(true);
     setTimeout(() => {
@@ -60,7 +70,7 @@ export default function Layout() {
         muted
         className="fixed inset-0 w-full h-full object-cover -z-10"
       >
-        <source src="/assets/hsv4.mp4" type="video/mp4" />
+        <source src="./src/assets/hsv4.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
