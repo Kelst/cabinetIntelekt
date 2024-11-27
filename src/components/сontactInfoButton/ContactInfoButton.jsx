@@ -1,13 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { IconButton, Popover, List, ListItem, ListItemText, ListItemIcon, Typography } from '@mui/material';
-import { Phone, ContentCopy } from '@mui/icons-material';
+import React, { useState } from 'react';
+import { 
+  IconButton, 
+  Popover, 
+  List, 
+  ListItem, 
+  ListItemText, 
+  ListItemIcon,
+  Typography,
+  Fade,
+  Paper
+} from '@mui/material';
+import { Phone, ContentCopy, Check } from '@mui/icons-material';
 import { useSpring, animated } from 'react-spring';
 import useConfigPage from '../../store/configPage';
 
 const ContactInfoButton = ({ iconColor }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [copiedphone, setCopiedphone] = useState('');
-  const [copiedItemIndex, setCopiedItemIndex] = useState(null);
+  const [copiedIndex, setCopiedIndex] = useState(null);
+  const configCabinet = useConfigPage(state => state.configCabinet);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -17,22 +27,28 @@ const ContactInfoButton = ({ iconColor }) => {
     setAnchorEl(null);
   };
 
-  const handleCopyphone = (phone, index) => {
-    navigator.clipboard.writeText(phone).then(() => {
-      setCopiedphone(phone);
-      setCopiedItemIndex(index);
-    });
-  };
-
-  useEffect(() => {
-    if (copiedphone) {
-      const timer = setTimeout(() => {
-        setCopiedphone('');
-        setCopiedItemIndex(null);
-      }, 1000);
-      return () => clearTimeout(timer);
+  const handleCopy = async (phone, index) => {
+    try {
+      await navigator.clipboard.writeText(phone);
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+      // Fallback копіювання
+      const textArea = document.createElement('textarea');
+      textArea.value = phone;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        setCopiedIndex(index);
+        setTimeout(() => setCopiedIndex(null), 2000);
+      } catch (err) {
+        console.error('Fallback copy failed:', err);
+      }
+      document.body.removeChild(textArea);
     }
-  }, [copiedphone]);
+  };
 
   const open = Boolean(anchorEl);
 
@@ -40,18 +56,6 @@ const ContactInfoButton = ({ iconColor }) => {
     opacity: open ? 1 : 0,
     transform: open ? 'scale(1)' : 'scale(0.8)',
   });
-  const configCabinet = useConfigPage(state => state.configCabinet);
-
-  // const callCenterphones = [
-  //   { phone: '0997043200', label: 'Технічна підтримка' },
-  //   { phone: '0987043200', label: '' },
-  //   { phone: '0977043200', label: '' },
-  //   { phone: '0967043200', label: '' },
-  //   { phone: '0957043200', label: '' },
-  //   { phone: '0777043200', label: '' },
-  //   { phone: '0737043200', label: '' },
-  //   { phone: '0687043200', label: '' }
-  // ];
 
   return (
     <>
@@ -70,47 +74,67 @@ const ContactInfoButton = ({ iconColor }) => {
           vertical: 'top',
           horizontal: 'center',
         }}
+        PaperProps={{
+          sx: {
+            minWidth: '300px',
+          }
+        }}
       >
         <animated.div style={animationProps}>
-          <div className=' flex items-center justify-center font-bold mt-1'>Технічна підтримка</div>
+          <Typography 
+            variant="subtitle1" 
+            sx={{ 
+              textAlign: 'center', 
+              fontWeight: 'bold',
+              py: 1 
+            }}
+          >
+            Технічна підтримка
+          </Typography>
           <List>
-            
             {configCabinet.phoneNumbers.map((item, index) => (
               <ListItem
                 key={index}
+                sx={{ position: 'relative' }} // Додаємо відносне позиціонування
                 secondaryAction={
-                  <div style={{ position: 'relative' }}>
-                    <IconButton
-                      edge="end"
-                      aria-label="copy"
-                      onClick={() => handleCopyphone(item.phone, index)}
-                    >
-                      <ContentCopy />
-                    </IconButton>
-                    {copiedItemIndex === index && (
-                      <div
-                        style={{
-                          position: 'absolute',
-                          top: '100%',
-                          right: 0,
-                          backgroundColor: 'rgba(0, 0, 0, 1)',
-                          color: 'white',
-                          padding: '5px 10px',
-                          borderRadius: '4px',
-                          zIndex: 99999,
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        Скопійовано: {copiedphone}
-                      </div>
-                    )}
-                  </div>
+                  <IconButton
+                    edge="end"
+                    aria-label="copy"
+                    onClick={() => handleCopy(item.phone, index)}
+                  >
+                    {copiedIndex === index ? <Check /> : <ContentCopy />}
+                  </IconButton>
                 }
               >
                 <ListItemIcon>
                   <Phone />
                 </ListItemIcon>
-                <ListItemText primary={item.label} secondary={item.phone} />
+                <ListItemText 
+                  primary={item.label} 
+                  secondary={item.phone}
+                />
+                {/* Повідомлення про копіювання */}
+                <Fade in={copiedIndex === index}>
+                  <Paper
+                    sx={{
+                      position: 'absolute',
+                      left: '50%',
+                      top: '-20px',
+                      transform: 'translateX(-50%)',
+                      bgcolor: 'rgba(0, 0, 0, 0.87)',
+                      color: 'white',
+                      px: 1,
+                      py: 0.5,
+                      borderRadius: 1,
+                      zIndex: 99999,
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    <Typography variant="caption">
+                      Скопійовано: {item.phone}
+                    </Typography>
+                  </Paper>
+                </Fade>
               </ListItem>
             ))}
           </List>
