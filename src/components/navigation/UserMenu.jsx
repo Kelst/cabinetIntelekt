@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import useStore from '../../store/store';
 import useInfoStore from '../../store/infoStore';
 
@@ -8,15 +8,34 @@ const UserMenu = () => {
   const logIn = useStore(state => state.logIn);
   const setLoader = useInfoStore(store => store.setLoader);
   const showAllert = useInfoStore(state => state.showAllert);
+  
+  const [allLogins, setAllLogins] = useState([]);
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  useEffect(() => {
+    if (user.subLogin) {
+      setAllLogins(prev => {
+        const allUsers = [...prev, user, ...user.subLogin];
+        const uniqueUsers = Array.from(
+          new Map(allUsers.map(item => [item.uid, item])).values()
+        );
+        return uniqueUsers.sort((a, b) => a.login.localeCompare(b.login));
+      });
+    }
+  }, [user.subLogin]);
 
-  const handleSwitchUser = async (e) => {
+  const handleSwitchUser = async (loginUser) => {
+    if (loginUser.uid === user.uid) return;
+    
     let result;
     try {
       setLoader(true);
-      result = await logIn(e.login, e.password);
-      await getData(e.uid);
+      result = await logIn(loginUser.login, loginUser.password);
+      await getData(loginUser.uid);
+      setIsExpanded(false);
     } catch (error) {
-      console.log("switch error", error);
+      console.error("Switch user error:", error);
+      showAllert(1, "Помилка при зміні логіну");
     } finally {
       if (result?.flag) {
         showAllert(2, "Логін змінено");
@@ -25,46 +44,50 @@ const UserMenu = () => {
     }
   };
 
-  const renderLoginGallery = () => {
-    if (!user.subLogin) return null;
+  const renderActiveUser = () => (
+    <div 
+      className="flex items-center gap-2 px-3 py-2 bg-slate-800/90 backdrop-blur-sm rounded-lg cursor-pointer 
+                 hover:bg-slate-700/90 transition-all duration-300 border border-slate-600/50"
+      onClick={() => setIsExpanded(!isExpanded)}
+    >
+      <div className="flex flex-col">
+        <span className="text-sm font-medium text-white">{user.login}</span>
+        <span className="text-xs text-slate-300">{user.name}</span>
+      </div>
+      <svg
+        className={`w-4 h-4 text-slate-400 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+  );
 
-    const leftLogins = user.subLogin.slice(0, Math.floor(user.subLogin.length / 2));
-    const rightLogins = user.subLogin.slice(Math.floor(user.subLogin.length / 2));
+  const renderUserList = () => {
+    if (!isExpanded || !allLogins.length) return null;
 
     return (
-      <div className="flex items-center justify-center gap-2">
-        {/* Ліві логіни */}
-        <div className="flex gap-1">
-          {leftLogins.map((subUser) => (
+      <div className="absolute  right-0 mt-2 w-48 bg-slate-800/95 backdrop-blur-sm rounded-lg shadow-lg shadow-black/50 
+                      border border-slate-600/50 z-50 overflow-hidden">
+        <div className="py-2 ">
+          {allLogins.map((loginUser) => (
             <button
-              key={subUser.uid}
-              onClick={() => handleSwitchUser(subUser)}
-              className="px-2 py-0.5 text-xs bg-gray-100 rounded 
-                       hover:bg-gray-200 transition-all duration-300 
-                       text-gray-600 hover:text-gray-900"
+              key={loginUser.uid}
+              onClick={() => handleSwitchUser(loginUser)}
+              className={`
+                w-full text-left px-4 py-2 text-sm transition-colors duration-200
+                ${loginUser.uid === user.uid 
+                  ? 'bg-slate-700/70 text-white font-medium' 
+                  : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
+                }
+              `}
             >
-              {subUser.login}
-            </button>
-          ))}
-        </div>
-
-        {/* Поточний логін */}
-        <div className="px-3 py-1 bg-white border border-gray-300 rounded 
-                     text-sm font-medium text-gray-900">
-          {user.login}
-        </div>
-
-        {/* Праві логіни */}
-        <div className="flex gap-1">
-          {rightLogins.map((subUser) => (
-            <button
-              key={subUser.uid}
-              onClick={() => handleSwitchUser(subUser)}
-              className="px-2 py-0.5 text-xs bg-gray-100 rounded 
-                       hover:bg-gray-200 transition-all duration-300 
-                       text-gray-600 hover:text-gray-900"
-            >
-              {subUser.login}
+              <div className="flex flex-col">
+                <span>{loginUser.login}</span>
+                <span className="text-xs text-slate-400">{loginUser.name}</span>
+              </div>
             </button>
           ))}
         </div>
@@ -73,13 +96,9 @@ const UserMenu = () => {
   };
 
   return (
-    <div className="w-full">
-      <div className="bg-slate-100 rounded p-2">
-        <div className="flex flex-col items-center gap-1">
-          <div className="text-xs text-gray-600">{user.name}</div>
-          {renderLoginGallery()}
-        </div>
-      </div>
+    <div className="relative inline-block text-left">
+      {renderActiveUser()}
+      {renderUserList()}
     </div>
   );
 };

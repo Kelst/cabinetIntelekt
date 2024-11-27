@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { motion } from 'framer-motion';
 import TextAnimation from '../TextAnimation/TextAnimation';
@@ -9,11 +9,24 @@ import useInfoStore from '../../store/infoStore';
 
 const UserHeader = () => {
   const [isHovered, setIsHovered] = useState(false);
+  const [allLogins, setAllLogins] = useState([]);
   const user = useStore(state => state.userData);
   const getData = useStore(state => state.getData);
   const logIn = useStore(state => state.logIn);
   const setLoader = useInfoStore(store => store.setLoader);
   const showAllert = useInfoStore(state => state.showAllert);
+
+  useEffect(() => {
+    if (user?.subLogin) {
+      setAllLogins(prev => {
+        const allUsers = [...prev, user, ...user.subLogin];
+        const uniqueUsers = Array.from(
+          new Map(allUsers.map(item => [item.uid, item])).values()
+        );
+        return uniqueUsers.sort((a, b) => a.login.localeCompare(b.login));
+      });
+    }
+  }, [user?.subLogin]);
 
   const handleSwitchUser = async (loginData) => {
     let result;
@@ -44,7 +57,7 @@ const UserHeader = () => {
   });
 
   const renderLoginGallery = () => {
-    if (!user.subLogin || user.subLogin.length === 0) {
+    if (!allLogins.length) {
       return (
         <div className="flex justify-center items-center mt-4">
           <span className="px-6 py-2.5 text-base font-medium bg-white bg-opacity-90 backdrop-blur-md 
@@ -55,43 +68,23 @@ const UserHeader = () => {
       );
     }
 
-    const leftLogins = user.subLogin.slice(0, Math.floor(user.subLogin.length / 2));
-    const rightLogins = user.subLogin.slice(Math.floor(user.subLogin.length / 2));
-
     return (
-      <div className="flex justify-center items-center gap-4 mt-4 overflow-x-auto py-2">
-        {/* Ліві логіни */}
+      <div className="flex justify-center items-center gap-2 mt-4 overflow-x-auto py-2">
         <div className="flex gap-2">
-          {leftLogins.map((login, index) => (
+          {allLogins.map((loginUser) => (
             <button
-              key={`left-${index}`}
-              onClick={() => handleSwitchUser(login)}
-              className="px-3 py-1.5 text-sm bg-white bg-opacity-70 backdrop-blur-sm rounded-lg 
-                       shadow-md hover:bg-opacity-90 transition-all duration-300 
-                       text-gray-700 hover:text-gray-900 transform hover:scale-105"
+              key={loginUser.uid}
+              onClick={() => loginUser.uid !== user.uid && handleSwitchUser(loginUser)}
+              className={`
+                px-3 py-1.5 text-sm rounded-lg shadow-md transition-all duration-300 
+                transform hover:scale-105
+                ${loginUser.uid === user.uid
+                  ? 'bg-white bg-opacity-90 backdrop-blur-md text-gray-900 border-2 border-red-400'
+                  : 'bg-white bg-opacity-70 backdrop-blur-sm text-gray-700 hover:bg-opacity-90 hover:text-gray-900'
+                }
+              `}
             >
-              {login.login}
-            </button>
-          ))}
-        </div>
-
-        {/* Поточний логін */}
-        <span className="px-6 py-2.5 text-base font-medium bg-white bg-opacity-90 backdrop-blur-md 
-                      rounded-xl shadow-lg text-gray-900 border-2 border-red-400">
-          {user.login}
-        </span>
-
-        {/* Праві логіни */}
-        <div className="flex gap-2">
-          {rightLogins.map((login, index) => (
-            <button
-              key={`right-${index}`}
-              onClick={() => handleSwitchUser(login)}
-              className="px-3 py-1.5 text-sm bg-white bg-opacity-70 backdrop-blur-sm rounded-lg 
-                       shadow-md hover:bg-opacity-90 transition-all duration-300 
-                       text-gray-700 hover:text-gray-900 transform hover:scale-105"
-            >
-              {login.login}
+              {loginUser.login}
             </button>
           ))}
         </div>
@@ -106,7 +99,6 @@ const UserHeader = () => {
   return (
     <animated.div style={fadeIn} className="mb-8 text-center">
       <div className="p-8 rounded-lg bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg shadow-lg">
-
         <motion.div
           whileHover={{ scale: 1.05 }}
           transition={{ type: "spring", stiffness: 300 }}
