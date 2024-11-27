@@ -3,7 +3,7 @@ import { IconButton, Popover, List, ListItem, ListItemText, ListItemIcon } from 
 import { Phone, ContentCopy } from '@mui/icons-material';
 import { useSpring, animated } from 'react-spring';
 
-const ContactInfoButton = () => {
+const ContactInfoButton = ({ iconColor }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [copiedNumber, setCopiedNumber] = useState('');
   const [copiedItemIndex, setCopiedItemIndex] = useState(null);
@@ -46,12 +46,15 @@ const ContactInfoButton = () => {
     { number: '0977043200', label: '' },
     { number: '0967043200', label: '' },
     { number: '0957043200', label: '' },
+    { number: '0777043200', label: '' },
+    { number: '0737043200', label: '' },
+    { number: '0687043200', label: '' }
   ];
 
   return (
     <>
       <IconButton onClick={handleClick}>
-        <Phone />
+        <Phone sx={{ color: iconColor }} />
       </IconButton>
       <Popover
         open={open}
@@ -86,7 +89,7 @@ const ContactInfoButton = () => {
                           position: 'absolute',
                           top: '100%',
                           right: 0,
-                          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                          backgroundColor: 'rgba(0, 0, 0, 1)',
                           color: 'white',
                           padding: '5px 10px',
                           borderRadius: '4px',

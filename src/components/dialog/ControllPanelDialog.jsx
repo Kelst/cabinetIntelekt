@@ -36,12 +36,12 @@ const HelpSection = ({ title, content, delay }) => (
 
 const helpSections = [
   {
-    title: 'Очистити MAC',
-    content: 'Видалити MAC-адресу поточного пристрою, щоб ви могли підключити новий, наприклад, при заміні роутера.',
+    title: 'Очищення MAC',
+    content: 'Очищення MAC - адреси із системи фіксації, для можливості встановити новий пристрій.',
   },
   {
     title: 'Встановити кредит',
-    content: 'Якщо ви не встигли оплатити інтернет, у вас є можливість продовжити його дію на 5 днів.',
+    content: 'Можливість користуватись послугами в кредит - строком в 5 днів.',
   },
   {
     title: 'Додаткові послуги',
@@ -49,7 +49,7 @@ const helpSections = [
   },
   {
     title: 'Статична IP',
-    content: 'Незмінна IP-адреса для підключення до інтернету. Це означає, що кожного разу, коли ви підключаєтеся до мережі, вам присвоюється одна й та сама IP-адреса.',
+    content: 'Статична (фіксована) IP-адреса - це постійна адреса в мережі інтернет, яка закріплюється за вашим обліковим записом і залишається незмінною до відключення послуги.',
   },
   {
     title: 'Тарифні плани',
@@ -100,7 +100,7 @@ export default function ControlPanelDialog({ open, handleClose }) {
         <div className="p-6 space-y-6">
           {helpSections.map((section, index) => {
             const shouldShow = {
-              'Очистити MAC': configCabinet.home.clearMac,
+              'Очищення MAC': configCabinet.home.clearMac,
               'Встановити кредит': configCabinet.home.setCredit,
               'Додаткові послуги': configCabinet.home.additionalService,
               'Статична IP': configCabinet.home.staticIp,

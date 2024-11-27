@@ -108,7 +108,7 @@ const MainInfo = ({ style, handleEditPhone, handleStopPlayLogin, handleReloadSes
         <InfoItem icon={AddressIcon} label="Адреса" value={user?.address} />
         <InfoItem 
           icon={InternetIcon} 
-          label="Стан інтернет з'єднання" 
+          label="Стан з'єднання" 
           value={
             user?.statusInternet 
               ? (

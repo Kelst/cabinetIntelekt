@@ -70,7 +70,7 @@ const BalancePopup = ({ balance, credit = 0, deposit = 0, onClose }) => {
           </div>
           
           <p className="text-gray-300">
-            На вашому рахунку від'ємний баланс: 
+            На вашому рахунку: 
             <span className="font-semibold text-red-500 ml-1">
               {balance.toFixed(2)} грн
             </span>

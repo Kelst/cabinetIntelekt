@@ -88,7 +88,7 @@ export default function DropDownCard({ open, user, handleClose, transition }) {
         <Typography variant="h6" className="mb-2">Привіт 👋</Typography>
         <div className='flex justify-center flex-col items-center gap-3 md:flex-col sm:flex-col'>
           <p className=''>
-            ввійти за логіном <span className='font-bold'>{user.login}</span> ?
+            ввійти за обліковим записом <span className='font-bold'>{user.login}</span> ?
           </p>
           <Button
             ref={buttonRef}

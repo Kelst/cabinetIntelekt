@@ -14,6 +14,7 @@ import {
   Link
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import ContactInfoButton from '../сontactInfoButton/ContactInfoButton';
 
 const VideoContainer = styled(Box)(({ theme }) => ({
   width: '100%',
@@ -141,7 +142,7 @@ const PromoPage = () => {
                   <ListItemText 
                     primary={
                       <Typography>
-                        Або залишити заявку на підключення друга за тел.: <Link href="tel:0957691918" sx={{ color: '#DC143C' }}>(095) 769-19-18</Link>. 
+                        Або залишити заявку на підключення друга за тел.:<ContactInfoButton iconColor="white"/>. 
                         У заявці вкажіть акцію «Приведи друга» та свій логін.
                       </Typography>
                     }
