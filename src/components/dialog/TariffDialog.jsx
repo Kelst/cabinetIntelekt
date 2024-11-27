@@ -36,10 +36,12 @@ export default function TariffDialog({ open, handleClose }) {
             Доступні тарифні плани
             <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-2/5 h-0.5 bg-gradient-to-r from-red-300 to-orange-500 rounded-full" />
           </h2>
-          
           <p className="text-sm text-gray-500 tracking-wide text-center mt-4">
-            Оберіть найкращий тариф для вас
-          </p>
+  Оберіть найкращий тариф для вас
+</p>
+<p className="text-sm text-gray-500 tracking-wide text-center mt-2">
+  *Змінювати тарифний план можна тільки 1 раз на календарний місяць
+</p>
         </div>
 
         <IconButton
