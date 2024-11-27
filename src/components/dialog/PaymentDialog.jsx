@@ -54,6 +54,18 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+function generatePrivatbankPaymentLink(amount, acc) {
+  const baseUrl = 'https://my-payments.privatbank.ua/mypayments/customauth/identification/fp/static';
+  const staticToken = '2bc390c2d56f7e662830e89fbb154578u6a94p9f';
+  
+  // Форматуємо суму до 2 знаків після коми
+  const formattedAmount = amount.toFixed(2);
+  
+  // Формуємо посилання з параметрами
+  const paymentLink = `${baseUrl}?staticToken=${staticToken}&acc=${acc}&amount=${formattedAmount}`;
+  
+  return paymentLink;
+}
 
 export default function PaymentDialog({open, handleClose, type}) {
   const [login, setLogin] = React.useState('0');
@@ -75,6 +87,7 @@ export default function PaymentDialog({open, handleClose, type}) {
         
       break;
       case 'privat24':
+        window.location.href=generatePrivatbankPaymentLink(sumText,user.login)
         
       break;
      
