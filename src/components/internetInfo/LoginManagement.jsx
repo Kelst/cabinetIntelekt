@@ -8,6 +8,7 @@ import MysteriousText from '../MysteriousText/MysteriousText';
 import GlasmorphizmButton from '../button/glasmorphizm/GlasmorphizmButton';
 import useStore from '../../store/store';
 import useConfigPage from '../../store/configPage';
+import useInfoStore from '../../store/infoStore';
 
 const iconVariants = {
   animate: {
@@ -29,11 +30,13 @@ const LoginManagement = ({
   handleSetCredit, 
   handleAddService, 
   handleDisplayTariff, 
-  handleOpenStaticIp
+  handleOpenStaticIp,
+  handleUnlick
 }) => {
   const isStaticIp = useStore(state => state.user.isStaticIp);
   const ipStatic = useStore(state => state.user.ip);
   const configCabinet = useConfigPage(state => state.configCabinet);
+  const user = useStore(state => state.userData);
 
   const actions = [
     { 
@@ -57,6 +60,10 @@ const LoginManagement = ({
     { 
       label: 'Тарифні плани', 
       action: handleDisplayTariff 
+    },
+    { 
+      label: 'Відв`язати логін', 
+      action: handleUnlick 
     },
   ];
 
@@ -131,7 +138,8 @@ const LoginManagement = ({
             'Встановити кредит': configCabinet.home.setCredit,
             'Додаткові послуги': configCabinet.home.additionalService,
             'Статична IP': configCabinet.home.staticIp,
-            'Тарифні плани': configCabinet.home.tariffPlans
+            'Тарифні плани': configCabinet.home.tariffPlans,
+            'Відв`язати логін':configCabinet.home.unlinkLogin&&user.subLogin.length!==0
           }[action.label];
 
           return (

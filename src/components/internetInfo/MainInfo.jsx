@@ -142,7 +142,7 @@ const MainInfo = ({ style, handleEditPhone, handleStopPlayLogin, handleReloadSes
         />
         <InfoItem 
           icon={UserIcon} 
-          label="Стан логіну" 
+          label="Статус" 
           value={
             user?.status 
               ? <div className="inline-flex gap-x-2"><AnimatedLoginShield /> Активований</div>

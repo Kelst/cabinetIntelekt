@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Wifi as WifiIcon,
   Zap as SpeedIcon,
@@ -25,6 +25,40 @@ const iconVariants = {
     }
   }
 };
+
+
+const InfoTooltip = ({ children, tooltipText }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  return (
+    <div className="relative inline-flex">
+      <div
+        onMouseEnter={() => setIsVisible(true)}
+        onMouseLeave={() => setIsVisible(false)}
+      >
+        {children}
+      </div>
+      <AnimatePresence>
+        {isVisible && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="absolute z-50 w-80 p-4 text-sm bg-gray-900 text-gray-100 rounded-md shadow-lg -top-24 left-1/2 transform -translate-x-1/2"
+          >
+            <div className="relative">
+              <p>
+                Для використання тарифного плану зі швидкістю Інтернету від 300 до 1000 Мбіт/с необхідно використовувати спеціальний потужний роутер(мережеву карту) з підтримкою відповідного показника швидкості.
+              </p>
+              <div className="absolute w-3 h-3 bg-gray-900 rotate-45 -bottom-7 left-1/2 transform -translate-x-1/2" />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
 
 const InfoItem = ({ icon: Icon, label, value }) => (
   <motion.div 
@@ -89,8 +123,10 @@ const InternetInfo = ({ style }) => {
       </h2>
       <div className="space-y-2 sm:space-y-0">
         <InfoItem icon={WifiIcon} label="Тарифний план" value={user?.tariff} />
-        <InfoItem icon={SpeedIcon} label="Швидкість" value={tariffInfo.speed} />
-        <InfoItem icon={PriceIcon} label="Ціна" value={tariffInfo.price} />
+        <InfoTooltip tooltipText="Для використання тарифного плану...">
+  <InfoItem icon={SpeedIcon} label="Швидкість до" value={tariffInfo.speed} />
+</InfoTooltip>
+        <InfoItem icon={PriceIcon} label="Вартість" value={tariffInfo.price} />
         <InfoItem icon={IpIcon} label="IP" value={user?.ip} />
         {isStaticIp && <CancelStaticIpButton/>}
         <InfoItem icon={DurationIcon} label="Тривалість" value={user?.duration} />

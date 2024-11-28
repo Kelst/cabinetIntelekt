@@ -5,7 +5,6 @@ import PaidIcon from '@mui/icons-material/Paid';
 import InfoIcon from '@mui/icons-material/Info';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import LogoutIcon from '@mui/icons-material/Logout';
-import logo from "../../assets/intelekt.png"
 
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import minLogo from "../../assets/min-logo.png"
@@ -71,9 +70,15 @@ setActiveItem(item)
     <div  className=" " >
     <HeaderSignboard user={user} clases={clases} />
     <div className={ '  transition-all duration-500 bg-slate-100 -translate-y-80 md:translate-y-[0px] relative -z-10 ' +' '+clases.navigation }>
-      <img src={configCabinet.logo_min_navigation} width={210} height={200}         className="absolute -left-6 mt-8 object-cover w-[210px] h-[200px] -z-10"  />
-   
-
+    <div 
+    className="absolute -left-6 mt-8 w-[210px] h-[200px] z-50 cursor-pointer"
+    onClick={() => navigate('/home')}
+  >
+    <img 
+      src={configCabinet.logo_min_navigation}
+      className="w-full h-full object-cover"  
+    />
+  </div>
       {/*    <div className=' absolute font-bold  hidden 2xl:block  top-[90px] transition-all duration-500  left-0 uppercase text-white text-[10px]  2xl:top-[21px] 2xl:left-60 2xl:text-black '> 
        <span className={clases.spanText}> Особистий кабінет   </span>  </div> */}
       <ul>

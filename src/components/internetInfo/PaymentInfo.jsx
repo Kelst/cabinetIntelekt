@@ -114,7 +114,7 @@ const PaymentInfo = ({ style }) => {
                 className="flex justify-between items-center pt-2 border-t border-gray-700"
                 whileHover={{ x: 2, transition: { duration: 0.2 } }}
               >
-                <span className="text-sm font-medium text-gray-400">Загалом</span>
+                <span className="text-sm font-medium text-gray-400">Загалом:</span>
                 <span className="font-medium text-red-300">{addServicePrice.total_price} грн</span>
               </motion.div>
             </>

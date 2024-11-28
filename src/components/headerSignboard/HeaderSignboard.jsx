@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import useStore from '../../store/store';
 import useInfoStore from '../../store/infoStore';
 import useConfigPage from '../../store/configPage';
+import { PhoneMissed } from 'lucide-react';
 
 const HeaderSignboard = ({ user }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -106,7 +107,8 @@ const HeaderSignboard = ({ user }) => {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 className="overflow-hidden"
-              >
+              >    
+
                 <div className="bg-gray-800/50 rounded-lg divide-y divide-gray-700">
                   {user.subLogin.map((subUser) => (
                     <motion.button
@@ -123,6 +125,7 @@ const HeaderSignboard = ({ user }) => {
                     </motion.button>
                   ))}
                 </div>
+                <PhoneMissed />
               </motion.div>
             )}
           </AnimatePresence>

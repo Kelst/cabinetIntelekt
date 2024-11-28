@@ -24,6 +24,7 @@ import EditPassword from '../../components/dialog/EditPassword';
 import useConfigPage from '../../store/configPage';
 import BalancePopup from '../../components/balancePopup/BalancePopup';
 import useStore from '../../store/store';
+import UnlinkPhoneModal from '../../components/unlinckPhone/UnlinkPhoneModal';
 export default function Home() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -47,7 +48,7 @@ const hasAnyTrueValue = configCabinet.home.clearMac ||
 configCabinet.home.setCredit || 
 configCabinet.home.additionalService || 
 configCabinet.home.staticIp || 
-configCabinet.home.tariffPlans;
+configCabinet.home.tariffPlans||configCabinet.home.unlinkLogin;
 const [openDialogEditPhone,setOpenDialogEditPhone]=useState(false)
 const [openDialogEditPassword,setOpenDialogEditPassword]=useState(false)
 
@@ -86,6 +87,9 @@ function handleStaticIp(){
 function handleDisplayTariff(){
   setOpenDialogTariff(true)
 }
+function handleUnlick() {
+  setOpenUnlink(true)
+}
 function handleOpenStaticIp(){
   setOpenDialogStatic(true)
 }
@@ -98,6 +102,7 @@ const user = useStore(state => state.userData);
 
 
 //
+const [openUnlink, setOpenUnlink] = useState(false);
 
   return (
       <section  >
@@ -153,6 +158,8 @@ hasAnyTrueValue?
     handleAddService={handleAddService}
     handleDisplayTariff={handleDisplayTariff}
     handleOpenStaticIp={handleOpenStaticIp}
+    handleUnlick={handleUnlick}
+
   />:<></>}
       </div>
     </div>
@@ -208,6 +215,7 @@ hasAnyTrueValue?
             handleAddService={handleAddService}
             handleDisplayTariff={handleDisplayTariff}
             handleOpenStaticIp={handleOpenStaticIp}
+            handleUnlick={handleUnlick}
           />:<></>}
         </div>
       </div>
@@ -222,6 +230,8 @@ hasAnyTrueValue?
      <EditPhone open={openDialogEditPhone} handleClose={()=>{setOpenDialogEditPhone(false)}}/>
      <EditPassword open={openDialogEditPassword} handleClose={()=>{setOpenDialogEditPassword(false)}}/>
      <TariffDialog open={openDialogTariff}  handleClose={()=>{setOpenDialogTariff(false)}} />
+     <UnlinkPhoneModal open={openUnlink} onClose={()=>setOpenUnlink(false)} />
+
       </section>
 
   
