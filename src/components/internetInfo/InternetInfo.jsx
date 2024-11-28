@@ -32,10 +32,11 @@ const InfoTooltip = ({ children, tooltipText }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   return (
-    <div className="relative inline-flex">
+    <div className="w-full relative">
       <div
         onMouseEnter={() => setIsVisible(true)}
         onMouseLeave={() => setIsVisible(false)}
+        className="w-full"
       >
         {children}
       </div>
@@ -45,13 +46,13 @@ const InfoTooltip = ({ children, tooltipText }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            className="absolute z-50 w-80 p-4 text-sm bg-gray-900 text-gray-100 rounded-md shadow-lg -top-24 left-[calc(50%-10px)] transform -translate-x-1/2"
+            className="absolute z-50 w-80 p-4 text-sm bg-gray-900 text-gray-100 rounded-md shadow-lg transform -translate-x-1/2 left-1/2 -translate-y-full -top-2"
           >
             <div className="relative">
               <p>
                 Для використання тарифного плану зі швидкістю Інтернету від 300 до 1000 Мбіт/с необхідно використовувати спеціальний потужний роутер(мережеву карту) з підтримкою відповідного показника швидкості.
               </p>
-              <div className="absolute w-3 h-3 bg-gray-900 rotate-45 -bottom-7 left-1/2 transform -translate-x-1/2" />
+              <div className="absolute w-3 h-3 bg-gray-900 rotate-45 -bottom-1.5 left-1/2 transform -translate-x-1/2" />
             </div>
           </motion.div>
         )}
@@ -59,7 +60,6 @@ const InfoTooltip = ({ children, tooltipText }) => {
     </div>
   );
 };
-
 
 const InfoItem = ({ icon: Icon, label, value }) => (
   <motion.div 
