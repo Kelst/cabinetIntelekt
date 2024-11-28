@@ -264,17 +264,6 @@ return user.data
     const result = response.data
     if (result.flag) {
       console.log("Session reloaded successfully:", result.reloadResult.message)
-      // set(state => ({ 
-      //   ...state, 
-      //   userData: {...state.userData,statusInternet :false},
-      //   user: {
-      //     ...state.user,
-      //     statusInternet:false,
-      //     duration:0,
-      //     sendData:0,
-      //     sendData:0
-      //   }
-      // }))
     } else {
       console.log("Failed to reload session:", result.reloadResult.message)
     }
@@ -288,6 +277,44 @@ return user.data
         message: "An error occurred while reloading the session"
       }
     }
+  }
+},
+async unlinkPhone(uid, uidPrime, phone, loginOld) {
+  try {
+    const response = await $api.post('http://194.8.147.150:5000/api/unlinkPhone', { 
+      uid, 
+      uidPrime, 
+      phone, 
+      loginOld 
+    });
+    
+    const result = response.data;
+    
+    if (result.flag) {
+      // Оновлюємо state, видаляючи відповідний логін з subLogin
+      set(state => ({
+        ...state,
+        userData: {
+          ...state.userData,
+          subLogin: state.userData.subLogin.filter(login => login.uid !== uid)
+        }
+      }));
+      
+      console.log("Session reloaded successfully:", result.unlinkResult.message);
+    } else {
+      console.log("Failed to reload session:", result.unlinkResult.message);
+    }
+    
+    return result;
+  } catch (error) {
+    console.error("Error unlinkResult session:", error);
+    return {
+      flag: false,
+      reloadResult: {
+        success: false,
+        message: "An error occurred while unlinkResult the session"
+      }
+    };
   }
 },
 async stopPlayLogin(uid,login,balance,billId,feesM) {

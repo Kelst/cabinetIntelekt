@@ -31,7 +31,8 @@ const LoginManagement = ({
   handleAddService, 
   handleDisplayTariff, 
   handleOpenStaticIp,
-  handleUnlick
+  handleUnlick,
+  handleExitDialogOpen
 }) => {
   const isStaticIp = useStore(state => state.user.isStaticIp);
   const ipStatic = useStore(state => state.user.ip);
@@ -62,9 +63,13 @@ const LoginManagement = ({
       action: handleDisplayTariff 
     },
     { 
-      label: 'Відв`язати логін', 
+      label: 'Це не мій особистий кабінет', 
       action: handleUnlick 
     },
+    { 
+      label: 'Вийти з особистого кабінету', 
+      action: handleExitDialogOpen 
+    }
   ];
 
   const ActionButton = ({ action, shouldShow }) => {
@@ -120,8 +125,9 @@ const LoginManagement = ({
           />
         </motion.div>
       </div>
+
       <motion.div 
-        className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 custom-grid gap-2 sm:gap-4"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 max-w-4xl mx-auto"
         initial="hidden"
         animate="visible"
         variants={{
@@ -139,7 +145,8 @@ const LoginManagement = ({
             'Додаткові послуги': configCabinet.home.additionalService,
             'Статична IP': configCabinet.home.staticIp,
             'Тарифні плани': configCabinet.home.tariffPlans,
-            'Відв`язати логін':configCabinet.home.unlinkLogin&&user.subLogin.length!==0
+            'Це не мій особистий кабінет': configCabinet.home.unlinkLogin && user.subLogin.length !== 0,
+            'Вийти з особистого кабінету': configCabinet.home.unlinkLogin && user.subLogin.length !== 0
           }[action.label];
 
           return (

@@ -100,7 +100,7 @@ export default function Info() {
   // Create array of visible tabs based on config
   const visibleTabs = [
     { label: "Мої заявки", show: configCabinet.additional.showTask, component: <MyTaskViewer /> },
-    { label: "Підключи друга", show: configCabinet.additional.addFriend, component: <PromoPage/>  },
+    { label: "Приведи друга", show: configCabinet.additional.addFriend, component: <PromoPage/>  },
     //{ label: "Підключи друга", show: configCabinet.additional.addFriend, component: <NetworkInfo /> },
     { label: "Офіси", show: configCabinet.additional.showOffice, component: (
       <div>

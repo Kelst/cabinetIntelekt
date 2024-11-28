@@ -145,7 +145,7 @@ const MainInfo = ({ style, handleEditPhone, handleStopPlayLogin, handleReloadSes
           label="Статус" 
           value={
             user?.status 
-              ? <div className="inline-flex gap-x-2"><AnimatedLoginShield /> Активований</div>
+              ? <div className="inline-flex gap-x-2"><AnimatedLoginShield /> Активний</div>
               : <div className="inline-flex gap-x-2"><PauseIcon /> На паузі</div>
           } 
         />

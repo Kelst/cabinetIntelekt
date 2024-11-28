@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 import style from  "./Home.module.css"
 import MacCreditDialog from '../../components/dialog/MacCreditDialog';
 import useInfoStore from '../../store/infoStore';
@@ -25,6 +26,7 @@ import useConfigPage from '../../store/configPage';
 import BalancePopup from '../../components/balancePopup/BalancePopup';
 import useStore from '../../store/store';
 import UnlinkPhoneModal from '../../components/unlinckPhone/UnlinkPhoneModal';
+import ExitDialog from '../../components/dialog/ExitDialog';
 export default function Home() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -57,8 +59,20 @@ useSpring({ opacity: 1, from: { opacity: 0 }, delay: Math.random() * 450 });
 
 const setLoader=useInfoStore(state=>state.setLoader) 
 const showAllert=useInfoStore(state=>state.showAllert) 
-
-
+const [exitDialogOpen, setExitDialogOpen] = useState(false);
+const logOut = useStore(state => state.logOut);
+const navigate = useNavigate(); 
+const handleLogOut = async () => {
+  try {
+    await logOut();
+    navigate("/login");
+  } catch (e) {
+    console.log('Помилка виходу з акаунта');
+  }
+};
+function handleExitDialogOpen() {
+  setExitDialogOpen(true)
+}
 function handleStopPlayLogin(){
   setOpenDialogStopPlay(true)
 }
@@ -159,6 +173,7 @@ hasAnyTrueValue?
     handleDisplayTariff={handleDisplayTariff}
     handleOpenStaticIp={handleOpenStaticIp}
     handleUnlick={handleUnlick}
+    handleExitDialogOpen={handleExitDialogOpen}
 
   />:<></>}
       </div>
@@ -216,6 +231,7 @@ hasAnyTrueValue?
             handleDisplayTariff={handleDisplayTariff}
             handleOpenStaticIp={handleOpenStaticIp}
             handleUnlick={handleUnlick}
+            handleExitDialogOpen={handleExitDialogOpen}
           />:<></>}
         </div>
       </div>
@@ -231,6 +247,12 @@ hasAnyTrueValue?
      <EditPassword open={openDialogEditPassword} handleClose={()=>{setOpenDialogEditPassword(false)}}/>
      <TariffDialog open={openDialogTariff}  handleClose={()=>{setOpenDialogTariff(false)}} />
      <UnlinkPhoneModal open={openUnlink} onClose={()=>setOpenUnlink(false)} />
+     <ExitDialog 
+        open={exitDialogOpen}
+        handleClose={() => setExitDialogOpen(false)}
+        handleLogOuth={handleLogOut}
+      />
+      
 
       </section>
 

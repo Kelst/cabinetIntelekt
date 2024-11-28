@@ -27,6 +27,7 @@ const iconVariants = {
 };
 
 
+
 const InfoTooltip = ({ children, tooltipText }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -44,7 +45,7 @@ const InfoTooltip = ({ children, tooltipText }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            className="absolute z-50 w-80 p-4 text-sm bg-gray-900 text-gray-100 rounded-md shadow-lg -top-24 left-1/2 transform -translate-x-1/2"
+            className="absolute z-50 w-80 p-4 text-sm bg-gray-900 text-gray-100 rounded-md shadow-lg -top-24 left-[calc(50%-10px)] transform -translate-x-1/2"
           >
             <div className="relative">
               <p>
@@ -90,7 +91,20 @@ const InfoItem = ({ icon: Icon, label, value }) => (
     </motion.div>
   </motion.div>
 );
-
+const UAHIcon = ({ className }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 96.08 122.88"
+    fill="white"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M67.41,55.44l-14.8,12H96.08V80.64H39.7c-3.76,2.84-6,6.3-6,10.71,0,7.56,6,11.66,16.71,11.66,9.13,0,17-4.4,23.3-13.53L91,101.14c-9.43,14.5-26.46,21.74-42.53,21.74-21.11,0-36.84-10.07-36.84-26.77a24.07,24.07,0,0,1,5.66-15.44H0V67.44H27.71l15.13-12H0V42.24H56.07c4.1-3.77,6-7.24,6-11.34,0-6.6-6-11.33-15.13-11.33-8.83,0-16.37,5-21.74,13.53L8.5,21.74C17.64,7.24,32.44,0,48.51,0c21.73,0,35.9,11.34,35.9,26.77a26,26,0,0,1-5,15.44h16.7V55.44Z"/>
+  </svg>
+);
 const InternetInfo = ({ style }) => {
   const user = useStore(state => state.userData);
 
@@ -126,7 +140,7 @@ const InternetInfo = ({ style }) => {
         <InfoTooltip tooltipText="Для використання тарифного плану...">
   <InfoItem icon={SpeedIcon} label="Швидкість до" value={tariffInfo.speed} />
 </InfoTooltip>
-        <InfoItem icon={PriceIcon} label="Вартість" value={tariffInfo.price} />
+        <InfoItem icon={UAHIcon} label="Вартість" value={tariffInfo.price} />
         <InfoItem icon={IpIcon} label="IP" value={user?.ip} />
         {isStaticIp && <CancelStaticIpButton/>}
         <InfoItem icon={DurationIcon} label="Тривалість" value={user?.duration} />
