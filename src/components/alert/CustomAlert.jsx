@@ -1,7 +1,11 @@
 import React from 'react';
 import useInfoStore from '../../store/infoStore';
-import { Alert, AlertTitle, Snackbar } from '@mui/material';
+import { Alert, AlertTitle, Snackbar, Slide } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
+
+const SlideTransition = React.forwardRef((props, ref) => {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
 
 const CustomAlert = () => {
   const open = useInfoStore(state => state.openAlert);
@@ -53,40 +57,47 @@ const CustomAlert = () => {
   };
 
   return (
-    <Snackbar 
-      open={open} 
-      autoHideDuration={3000} 
-      onClose={handleClose}
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      TransitionComponent={motion.div}
-    >
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.3 }}
-      >
-        <Alert
+    <AnimatePresence>
+      {open && (
+        <Snackbar 
+          open={open} 
+          autoHideDuration={3000} 
           onClose={handleClose}
-          severity={type == 0 ? 'error' : type == 1 ? 'info' : 'success'}
-          sx={getAlertStyle()}
-          icon={
-            <motion.div
-              initial={{ rotate: -180 }}
-              animate={{ rotate: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              {type == 0 ? '⚠️' : type == 1 ? 'ℹ️' : '✅'}
-            </motion.div>
-          }
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          TransitionComponent={SlideTransition}
         >
-          <AlertTitle sx={{ fontWeight: 'bold', mb: 0.5 }}>
-            {getAlertTitle()}
-          </AlertTitle>
-          {message}
-        </Alert>
-      </motion.div>
-    </Snackbar>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Alert
+              onClose={handleClose}
+              severity={type === 0 ? 'error' : type === 1 ? 'info' : 'success'}
+              sx={getAlertStyle()}
+              icon={
+                <motion.div
+                  initial={{ rotate: -180, scale: 0.5 }}
+                  animate={{ rotate: 0, scale: 1 }}
+                  transition={{ 
+                    duration: 0.4,
+                    ease: "easeOut"
+                  }}
+                >
+                  {type === 0 ? '⚠️' : type === 1 ? 'ℹ️' : '✅'}
+                </motion.div>
+              }
+            >
+              <AlertTitle sx={{ fontWeight: 'bold', mb: 0.5 }}>
+                {getAlertTitle()}
+              </AlertTitle>
+              {message}
+            </Alert>
+          </motion.div>
+        </Snackbar>
+      )}
+    </AnimatePresence>
   );
 };
 

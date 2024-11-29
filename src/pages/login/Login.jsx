@@ -250,7 +250,10 @@ export default function Login() {
               '&::before': {
                 backgroundImage: `url(${imageU.logo||imageUrl.logo})`,
                 content: '""',
+                backgroundRepeat: 'no-repeat',
                 position: 'absolute',
+                backgroundSize: 'cover',
+              backgroundPosition: 'center',
                 top: 0,
                 left: 0,
                 right: 0,

@@ -66,35 +66,37 @@ const Navigation = () => {
               onClick={() => setIsOpen(false)}
               className="absolute top-4 right-4 p-2 rounded-full hover:bg-red-50"
             >
-              <CloseIcon className="w-10 h-10 text-black" />
+              <CloseIcon className="w-8 h-8 text-black" />
             </motion.button>
 
-            <div className="flex flex-col items-center justify-center w-full max-w-md mx-auto -mt-20">
-              <motion.img 
-                src={configCabinet.logo_min_navigation} 
-                alt="Logo" 
-                className="h-[100px] w-[100px] mb-12"
-                initial={{ opacity: 0, y: -20, scale: 0.8 }}
+            <div className="flex flex-col items-center justify-center w-full max-w-md mx-auto space-y-8">
+              <motion.div 
+                className="w-full flex justify-center items-center"
+                initial={{ opacity: 0, y: -20 }}
                 animate={{ 
                   opacity: 1, 
                   y: 0,
-                  scale: 1,
                   transition: {
                     duration: 0.5,
-                    delay: 0.2,
                     type: "spring",
                     stiffness: 200
                   }
                 }}
-                whileHover={{ 
-                  scale: 1.1,
-                  transition: { duration: 0.2 }
-                }}
-              />
+              >
+                <motion.img 
+                  src={configCabinet.logo_min_navigation} 
+                  alt="Logo" 
+                  className="w-32 h-32 object-contain"
+                  whileHover={{ 
+                    scale: 1.05,
+                    transition: { duration: 0.2 }
+                  }}
+                />
+              </motion.div>
               
-              <motion.nav className="w-full">
+              <motion.nav className="w-full mt-8">
                 <motion.ul 
-                  className="space-y-6 px-8"
+                  className="space-y-4 px-6"
                   initial="closed"
                   animate="open"
                   variants={{
@@ -106,7 +108,6 @@ const Navigation = () => {
                     }
                   }}
                 >
-                  {/* NavItems залишаються без змін */}
                   <NavItem 
                     to="/"
                     icon={<PermIdentityIcon className="text-red-500" />}
@@ -146,7 +147,7 @@ const Navigation = () => {
                   )}
                   
                   <motion.li 
-                    className="mt-8"
+                    className="pt-4"
                     variants={{
                       open: { opacity: 1, y: 0 },
                       closed: { opacity: 0, y: 20 }
@@ -156,9 +157,9 @@ const Navigation = () => {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setExitDialogOpen(true)}
-                      className="w-full flex items-center p-3 rounded-lg text-black hover:bg-red-50 transition-colors justify-center"
+                      className="w-full flex items-center p-3 rounded-lg text-black hover:bg-red-50 transition-colors justify-center gap-2"
                     >
-                      <LogoutIcon className="mr-3 text-red-500" />
+                      <LogoutIcon className="text-red-500" />
                       <span>LogOut</span>
                     </motion.button>
                   </motion.li>
@@ -177,6 +178,7 @@ const Navigation = () => {
     </div>
   );
 };
+
 const NavItem = ({ to, icon, text, isActive, onClick }) => (
   <motion.li
     variants={{
