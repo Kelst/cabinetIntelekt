@@ -51,7 +51,7 @@ const UserMenu = () => {
       onClick={() => setIsExpanded(!isExpanded)}
     >
       <div className="flex flex-col">
-        <span className="text-sm font-medium text-white">{user.login}</span>
+        <span className="text-sm font-medium text-white lowercase">{user.login}</span>
         <span className="text-xs text-slate-300">{user.name}</span>
       </div>
       <svg
