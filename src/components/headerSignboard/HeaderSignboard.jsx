@@ -20,7 +20,7 @@ const HeaderSignboard = ({ user }) => {
       const result = await logIn(loginData.login, loginData.password);
       await getData(loginData.uid);
       if (result?.flag) {
-        showAllert(2, "Логін змінено");
+        showAllert(2, `Обліковий запис ${loginData.login}`);
       }
     } catch (error) {
       console.error("Switch error:", error);

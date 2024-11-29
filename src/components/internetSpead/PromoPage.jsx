@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ContactInfoButton from '../сontactInfoButton/ContactInfoButton';
+import useConfigPage from '../../store/configPage';
 
 const VideoContainer = styled(Box)(({ theme }) => ({
   width: '100%',
@@ -85,6 +86,7 @@ const PromoPage = () => {
     e.preventDefault();
     window.open('https://t.me/intelekt_client_bot', '_blank');
   };
+  const configCabinet = useConfigPage(state => state.configCabinet);
 
   return (
     <StyledPaper>
@@ -129,7 +131,7 @@ const PromoPage = () => {
                           onClick={handleBotLink}
                           sx={{ color: '#DC143C', textDecoration: 'underline' }}
                         >
-                          @intelekt_client_bot
+                         {configCabinet.telegram_id}
                         </Link>
                       </Typography>
                     }
@@ -208,9 +210,9 @@ const PromoPage = () => {
               </Typography>
               <List>
                 {[
-                  "Бонусні кошти за приведенного друга можна отримати на особовий рахунок для користуванням послуг або замовити готівкою через @intelekt_client_bot.",
+                  `Бонусні кошти за приведенного друга можна отримати на особовий рахунок для користуванням послуг або замовити готівкою через ${configCabinet.telegram_id}.`,
                   "Замовити бонусні кошти готівкою можна в сумі не менше ніж 500 грн. і не більше ніж сума нарахованого бонусу по акції 'Приведи друга'.",
-                  "500 бонусних гривень запрошений друг може отримати тільки, якщо заявка на підключення була подана через @intelekt_client_bot.",
+                  `500 бонусних гривень запрошений друг може отримати тільки, якщо заявка на підключення була подана через ${configCabinet.telegram_id}.`,
                   "Запрошений друг може використати бонусні 500 грн. лише для оплати послуг Інтелект.",
                   "Акція дійсна для абонентів, які підключені до мережі Інтелект.",
                   "Якщо Ваш друг вже підключений до мережі Інтелект або його вже підключали по цій акції, то Ви не зможете отримати за нього бонус.",

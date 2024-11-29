@@ -111,7 +111,7 @@ export default function Payment() {
             >
               <StyledTab label="Поповнення рахунку" />
               <StyledTab label="Оплати" />
-              <StyledTab label="Зняття грошей" />
+              <StyledTab label="Зняття " />
             </StyledTabs>
             <div sx={{ p: 3 }} />
           </div>

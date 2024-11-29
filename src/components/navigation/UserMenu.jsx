@@ -38,7 +38,7 @@ const UserMenu = () => {
       showAllert(1, "Помилка при зміні логіну");
     } finally {
       if (result?.flag) {
-        showAllert(2, "Логін змінено");
+        showAllert(2, `Обліковий запис ${loginUser.login}`);
       }
       setLoader(false);
     }

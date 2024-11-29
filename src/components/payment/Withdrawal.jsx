@@ -183,22 +183,22 @@ export default function WithdrawalTable() {
                   <span>Дата</span>
                 </IconWrapper>
               </HeaderCell>
-              <HeaderCell align="right">
+              <HeaderCell align="center">
                 <IconWrapper>
                   <Description sx={{ fontSize: 18, color: '#dc2626' }} />
                   <span>Опис</span>
                 </IconWrapper>
               </HeaderCell>
-              <HeaderCell align="right">
+              <HeaderCell align="center">
                 <IconWrapper>
                   <TrendingUp sx={{ fontSize: 18, color: '#dc2626' }} />
                   <span>Сума</span>
                 </IconWrapper>
               </HeaderCell>
-              <HeaderCell align="right">
+              <HeaderCell align="center">
                 <IconWrapper>
                   <AccountBalance sx={{ fontSize: 18, color: '#dc2626' }} />
-                  <span>Депозит</span>
+                  <span>Залишок</span>
                 </IconWrapper>
               </HeaderCell>
              
@@ -212,7 +212,7 @@ export default function WithdrawalTable() {
               >
                 <DataCell>{formatDate(row.date)}</DataCell>
                 <Tooltip title={row.description} placement="top-start">
-                  <DataCell align="right" sx={{ 
+                  <DataCell align="center" sx={{ 
                     maxWidth: '200px',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
@@ -221,20 +221,20 @@ export default function WithdrawalTable() {
                     {row.description}
                   </DataCell>
                 </Tooltip>
-                <DataCell align="right">{formatCurrency(row.sum)}</DataCell>
-                <DataCell align="right">{formatCurrency(row.deposit)}</DataCell>
+                <DataCell align="center">{formatCurrency(row.sum)}</DataCell>
+                <DataCell align="center">{formatCurrency(row.deposit)}</DataCell>
                 
               </StyledTableRow>
             ))}
             <SummaryRow>
               <DataCell rowSpan={2} />
               <DataCell colSpan={2}>Всього операцій</DataCell>
-              <DataCell align="right">{paid.count}</DataCell>
+              <DataCell align="center">{paid.count}</DataCell>
               <DataCell />
             </SummaryRow>
             <SummaryRow>
               <DataCell colSpan={2}>Загальна сума</DataCell>
-              <DataCell align="right">{formatCurrency(paid.sum)}</DataCell>
+              <DataCell align="center">{formatCurrency(paid.sum)}</DataCell>
               <DataCell />
             </SummaryRow>
           </TableBody>

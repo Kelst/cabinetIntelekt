@@ -238,22 +238,22 @@ export default function DarkPaidTable() {
                   <span>Дата</span>
                 </IconWrapper>
               </HeaderCell>
-              <HeaderCell align="right">
+              <HeaderCell align="center">
                 <IconWrapper>
                   <Description sx={{ fontSize: 18, color: '#dc2626' }} />
                   <span>Опис</span>
                 </IconWrapper>
               </HeaderCell>
-              <HeaderCell align="right">
+              <HeaderCell align="center">
                 <IconWrapper>
                   <TrendingUp sx={{ fontSize: 18, color: '#dc2626' }} />
                   <span>Сума</span>
                 </IconWrapper>
               </HeaderCell>
-              <HeaderCell align="right">
+              <HeaderCell align="center">
                 <IconWrapper>
                   <AccountBalance sx={{ fontSize: 18, color: '#dc2626' }} />
-                  <span>Депозит</span>
+                  <span>Залишок</span>
                 </IconWrapper>
               </HeaderCell>
             </TableRow>
@@ -265,10 +265,10 @@ export default function DarkPaidTable() {
                 sx={{ animation: `slideIn 0.3s ease-out ${index * 0.1}s` }}
               >
                 <DataCell>{formatDate(row.date)}</DataCell>
-                <DataCell align="right">{row.description}</DataCell>
-                <DataCell align="right">{formatCurrency(row.sum)}</DataCell>
+                <DataCell align="center">{row.description}</DataCell>
+                <DataCell align="center">{formatCurrency(row.sum)}</DataCell>
                 <DataCell 
-                  align="right"
+                  align="center"
                   sx={{ 
                     color: row.deposit < 0 ? '#ef4444' : '#ffffff',
                     fontWeight: row.deposit < 0 ? 'bold' : 'normal'
@@ -281,12 +281,12 @@ export default function DarkPaidTable() {
             <SummaryRow>
               <DataCell rowSpan={2} />
               <DataCell colSpan={2}>Всього операцій</DataCell>
-              <DataCell align="right">{paid.count}</DataCell>
+              <DataCell align="center">{paid.count}</DataCell>
             </SummaryRow>
             <SummaryRow>
               <DataCell colSpan={2}>Загальна сума</DataCell>
               <DataCell 
-                align="right"
+                align="center"
                 sx={{ 
                   color: paid.sum < 0 ? '#ef4444' : '#ffffff',
                   fontWeight: 'bold'
