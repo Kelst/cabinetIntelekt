@@ -29,6 +29,8 @@ import UnlinkPhoneModal from '../../components/unlinckPhone/UnlinkPhoneModal';
 import ExitDialog from '../../components/dialog/ExitDialog';
 import { Feedback } from '@mui/icons-material';
 import FeedbackModal from '../../components/callBack/FeedbackModal';
+import UserMenu from '../../components/navigation/UserMenu';
+import UserMenuHome from '../../components/navigation/UserMenuHome';
 export default function Home() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -122,6 +124,7 @@ const [openUnlink, setOpenUnlink] = useState(false);
 
   return (
       <section  >
+        
               <FeedbackModal/>
 
 <BalancePopup 
@@ -187,6 +190,8 @@ hasAnyTrueValue?
     </div>
 
     <div className='lg:hidden'>
+    {/* <UserMenu  user={user} centered/> */}
+    <UserMenuHome/>
     <ContactInfoButton />
 
         <div className="flex flex-col gap-y-6 items-center justify-center sm:p-4">

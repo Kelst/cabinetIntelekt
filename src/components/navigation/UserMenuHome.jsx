@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useStore from '../../store/store';
 import useInfoStore from '../../store/infoStore';
 
-const UserMenu = ({ centered }) => {
+const UserMenuHome = () => {
   const getData = useStore(state => state.getData);
   const user = useStore(state => state.user);
   const logIn = useStore(state => state.logIn);
@@ -69,8 +69,8 @@ const UserMenu = ({ centered }) => {
     if (!isExpanded || !allLogins.length) return null;
 
     return (
-      <div className="absolute right-0 mt-2 w-48 bg-slate-800/95 backdrop-blur-sm rounded-lg shadow-lg shadow-black/50 
-                      border border-slate-600/50 z-50 overflow-hidden">
+      <div className="absolute left-0 md:right-0 md:left-auto  mt-2 w-48 bg-slate-800/95 backdrop-blur-sm rounded-lg 
+                      shadow-lg shadow-black/50 border border-slate-600/50 z-50 overflow-hidden">
         <div className="py-2">
           {allLogins.map((loginUser) => (
             <button
@@ -96,11 +96,13 @@ const UserMenu = ({ centered }) => {
   };
 
   return (
-    <div className={`relative inline-block text-left ${centered ? 'absolute left-1/2 -translate-x-1/2 top-[-90px]' : ''}`}>
-      {renderActiveUser()}
-      {renderUserList()}
+    <div className="hidden md:block relative">
+      <div className="relative  md:top-[-90px] inline-block text-left left-1/2 -translate-x-1/2">
+        {renderActiveUser()}
+        {renderUserList()}
+      </div>
     </div>
   );
 };
 
-export default UserMenu;
+export default UserMenuHome;
