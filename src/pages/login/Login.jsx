@@ -24,6 +24,8 @@ import { useNavigate } from 'react-router-dom';
 import CustomAlertOld from '../../components/alert/CustomAlertOld.jsx';
 import useConfigPage from '../../store/configPage.js';
 import TelegramAdButton from '../../components/telegramComponent/TelegramAdButton.jsx';
+import useInfoStore from '../../store/infoStore.js';
+import Loader from '../../components/loader/Loader.jsx';
 
 const defaultTheme = createTheme();
 
@@ -50,6 +52,7 @@ export default function Login() {
     previousPhone: "",
     phoneFromSMS: false
   });
+  const setLoader = useInfoStore(store => store.setLoader);
 
   const getImageUrl = useConfigPage.getState().getImageUrl;
   const imageUrl = useConfigPage(state => state.imageUrl);
@@ -121,23 +124,27 @@ export default function Login() {
   const handleVeriffyCode = async () => {
     try {
       const cleanPhone = formState.phone.replace(/\s+/g, '').replace(/^\+/, '');
+      setLoader(true)
       const response = await handleVeriffyCodes(formState.code, cleanPhone);
       
-      if (!response) {
+      if (!response || !response.flag) {  // Check both response and response.flag
         setShowAllert({
           open: true,
           type: 0,
-          message: 'Невірний код підтвердження'
+          message: response?.errText || 'Невірний код підтвердження'
         });
         updateFormState('code', '');
-      } else {
-        setShowAllert({
-          open: true,
-          type: 1,
-          message: 'Код підтверджено успішно'
-        });
-        navigate("/home");
+        return; // Stop execution here
       }
+      
+      // Only proceed if verification was successful
+      setShowAllert({
+        open: true,
+        type: 1,
+        message: 'Код підтверджено успішно'
+      });
+      navigate("/home");
+      
     } catch (error) {
       setShowAllert({
         open: true,
@@ -145,6 +152,10 @@ export default function Login() {
         message: error?.message || 'Помилка при перевірці коду'
       });
       updateFormState('code', '');
+    }
+    finally{
+      setLoader(false)
+
     }
   };
 
@@ -575,6 +586,8 @@ export default function Login() {
           </Grid>
         </Grid>
       </animated.div>
+      <Loader />
+
     </ThemeProvider>
   );
 }

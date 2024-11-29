@@ -183,11 +183,16 @@ async handleVeriffyCode(code, phone) {
       code,
       phone
     });
-
-    // Перевіряємо успішну відповідь
-    if (response.status === 200 && response.data.accessToken) {
+    
+    console.log('Server response:', response.data); // Для дебагу
+    
+    // Перевіряємо успішну відповідь і наявність токена
+    if (response.data && response.data.accessToken) {
+      // Зберігаємо токен і дані користувача
       localStorage.setItem('token', response.data.accessToken);
       localStorage.setItem('uid', response.data.user.uid);      
+      
+      // Оновлюємо стан
       set(state => ({
         ...state,
         isAuth: true,
@@ -198,43 +203,25 @@ async handleVeriffyCode(code, phone) {
         }
       }));
 
+      // Повертаємо успішний результат
       return {
         flag: true,
         errText: ''
       };
     }
 
-    // Якщо немає токена в успішній відповіді
-    if (response.status === 200 && !response.data.accessToken) {
-      const message = 'Помилка отримання токену доступу';
-      set(state => ({
-        ...state,
-        errorMessage: message,
-        isAuth: false
-      }));
-
-      return {
-        flag: false,
-        errText: message
-      };
-    }
-
-    // Якщо відповідь не 200 або інші випадки
-    throw new Error('Неочікувана відповідь від сервера');
-
-  } catch (error) {
-    console.log(error.response?.data?.message);
-    
-    const errorMessage = error.response?.data?.message || error.message || 'Помилка підтвердження коду';
-    
-    set(state => ({
-      ...state,
-      errorMessage: errorMessage
-    }));
-
+    // Якщо немає токена або даних користувача
     return {
       flag: false,
-      errText: errorMessage
+      errText: 'Помилка авторизації: відсутній токен доступу'
+    };
+
+  } catch (error) {
+    console.error('Verification error:', error.response || error);
+    
+    return {
+      flag: false,
+      errText: error.response?.data?.message || 'Помилка підтвердження коду'
     };
   }
 },
