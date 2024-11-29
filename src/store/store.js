@@ -577,6 +577,17 @@ async addFeedBack(feedBack,phone,login) {
     return result;
   }
 },
+async addFeedBackU(login,phone,message,sublogin) {
+  try {
+
+    const response = await $api.post('http://194.8.147.150:5000/api/addFeedbackU', {login,phone,message,sublogin,provider:"Intelekt" });
+    const result = response.data;
+    return result;
+  } catch (error) {
+    console.error("Error addFeedBackU:", error);
+    return result;
+  }
+},
 async removeStaticRequest(login) {
   try {
 

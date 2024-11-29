@@ -20,6 +20,7 @@ import AnimatedRocket from '../PulsingCircle/PulsingCircle';
 import NetworkDiagnostics from '../networkDiagnostics/NetworkDiagnostics';
 import useConfigPage from '../../store/configPage';
 import TelegramAdButton from '../telegramComponent/TelegramAdButton';
+import FeedbackModal from '../callBack/FeedbackModal';
 
 const iconVariants = {
   animate: {
@@ -76,7 +77,9 @@ const MainInfo = ({ style, handleEditPhone, handleStopPlayLogin, handleReloadSes
       className={`bg-black p-4 sm:p-6 rounded-md shadow-md ${style.animationBorder}`}
       whileHover={{ boxShadow: "0 0 15px rgba(255, 0, 0, 0.3)" }}
     >
+     
       <TelegramAdButton/>
+      <FeedbackModal/>
       <h2 className="text-xl font-bold mb-4 sm:mb-6 text-red-500 flex items-center">
         <motion.div
           className="mr-2 perspective-400"

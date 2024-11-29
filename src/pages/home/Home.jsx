@@ -27,6 +27,8 @@ import BalancePopup from '../../components/balancePopup/BalancePopup';
 import useStore from '../../store/store';
 import UnlinkPhoneModal from '../../components/unlinckPhone/UnlinkPhoneModal';
 import ExitDialog from '../../components/dialog/ExitDialog';
+import { Feedback } from '@mui/icons-material';
+import FeedbackModal from '../../components/callBack/FeedbackModal';
 export default function Home() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -120,6 +122,8 @@ const [openUnlink, setOpenUnlink] = useState(false);
 
   return (
       <section  >
+              <FeedbackModal/>
+
 <BalancePopup 
   balance={user?.balance}
   onClose={() => setShowPopup(false)}

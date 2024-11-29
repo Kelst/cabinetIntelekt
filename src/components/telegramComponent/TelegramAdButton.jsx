@@ -2,7 +2,7 @@ import React from 'react';
 import { Fab, Dialog, DialogTitle, DialogContent, 
          DialogContentText, Button, Box, List, 
          ListItem, ListItemIcon, ListItemText, ThemeProvider, createTheme,
-         IconButton } from '@mui/material';
+         IconButton, Tooltip } from '@mui/material';
 import { keyframes } from '@mui/system';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import CloseIcon from '@mui/icons-material/Close';
@@ -76,30 +76,46 @@ const TelegramAdButton = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Fab
+      <Tooltip 
+        title="Telegram бот" 
+        placement="left"
         sx={{
-          position: 'fixed',
-          top: 96,
-          right: 36,
-          zIndex: 20,
-          bgcolor: '#ff1744',
-          color: 'white',
-          animation: `${pulse} 2s infinite`,
-          '& .MuiSvgIcon-root': {
-            animation: isRotating ? `${rotate} 2s infinite linear` : 'none',
-          },
-          '&:hover': {
-            bgcolor: '#ff4569',
-            transform: 'scale(1.1)',
-          },
-          transition: 'all 0.3s'
+          '& .MuiTooltip-tooltip': {
+            bgcolor: '#ff1744',
+            color: '#ffffff',
+            fontSize: '0.875rem',
+            fontWeight: 500,
+            boxShadow: '0 2px 8px rgba(255, 23, 68, 0.5)',
+            borderRadius: '4px',
+            padding: '6px 12px'
+          }
         }}
-        onClick={() => setOpen(true)}
-        onMouseEnter={handleHover}
-        onMouseLeave={handleHoverEnd}
       >
-        <TelegramIcon />
-      </Fab>
+        <Fab
+          sx={{
+            position: 'fixed',
+            top: 96,
+            right: 36,
+            zIndex: 20,
+            bgcolor: '#ff1744',
+            color: 'white',
+            animation: `${pulse} 2s infinite`,
+            '& .MuiSvgIcon-root': {
+              animation: isRotating ? `${rotate} 2s infinite linear` : 'none',
+            },
+            '&:hover': {
+              bgcolor: '#ff4569',
+              transform: 'scale(1.1)',
+            },
+            transition: 'all 0.3s'
+          }}
+          onClick={() => setOpen(true)}
+          onMouseEnter={handleHover}
+          onMouseLeave={handleHoverEnd}
+        >
+          <TelegramIcon />
+        </Fab>
+      </Tooltip>
 
       <Dialog
         open={open}

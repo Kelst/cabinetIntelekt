@@ -103,7 +103,6 @@ const UserHeader = () => {
           whileHover={{ scale: 1.05 }}
           transition={{ type: "spring", stiffness: 300 }}
         >
-          <ContactInfoButton />
           <animated.h1
             className="text-4xl font-bold mb-4 text-shadow-lg flex justify-center gap-2"
             style={nameAnimation}

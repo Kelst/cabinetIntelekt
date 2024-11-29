@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useRouteError } from 'react-router-dom';
+import { Button, Typography, Box } from '@mui/material';
+import { WifiOff } from 'lucide-react';
 
 const ErrorPage = () => {
   const error = useRouteError();
@@ -12,6 +14,19 @@ const ErrorPage = () => {
       opacity: 1, 
       scale: 1,
       transition: { duration: 0.5 }
+    }
+  };
+
+  const wifiIconVariants = {
+    initial: { opacity: 0.5 },
+    animate: {
+      opacity: [0.5, 1, 0.5],
+      scale: [1, 1.1, 1],
+      transition: {
+        duration: 3,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
     }
   };
 
@@ -31,7 +46,7 @@ const ErrorPage = () => {
   const buttonVariants = {
     initial: { scale: 1 },
     hover: { 
-      scale: 1.1,
+      scale: 1.05,
       transition: {
         duration: 0.2
       }
@@ -39,63 +54,109 @@ const ErrorPage = () => {
     tap: { scale: 0.95 }
   };
 
+  // Background animation
+  const Circuit = () => (
+    <motion.div
+      className="absolute inset-0 overflow-hidden opacity-20"
+      initial={{ pathLength: 0 }}
+      animate={{
+        background: [
+          "linear-gradient(45deg, #FF4444 0%, transparent 70%)",
+          "linear-gradient(45deg, #FF0000 30%, transparent 80%)",
+          "linear-gradient(45deg, #FF4444 0%, transparent 70%)",
+        ]
+      }}
+      transition={{
+        duration: 5,
+        repeat: Infinity,
+        ease: "linear"
+      }}
+    />
+  );
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
-         style={{ backgroundImage: `url(/api/placeholder/1920/1080)` }}>
+    <Box className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-950 via-black to-red-900">
+      <Circuit />
+      
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="mx-8 w-[400px] h-[350px] md:w-[500px] flex justify-center items-center rounded-lg 
-                   shadow-xl bg-black/70 backdrop-blur-sm flex-col"
+        className="relative z-10 mx-8 w-[400px] h-[350px] md:w-[500px] flex justify-center items-center 
+                   rounded-lg shadow-2xl bg-white/5 backdrop-blur-md flex-col"
+        style={{
+          border: '1px solid rgba(255, 255, 255, 0.1)'
+        }}
       >
-        <motion.p 
-          className="text-white text-[66px] font-bold text-center font-[Nosifer]"
+        <motion.div
+          variants={wifiIconVariants}
+          initial="initial"
+          animate="animate"
+          className="mb-6"
+        >
+          <WifiOff size={50} className="text-red-500" />
+        </motion.div>
+
+        <motion.div
           variants={numberVariants}
           initial="initial"
           animate="animate"
+          className="mb-6"
         >
-          {error.status?.toString().slice(0,1)}
-          <motion.span 
-            className="mx-2 inline-block text-[75px] text-[#dd8232] font-[Nosifer]"
-            animate={{ 
-              rotate: [0, -10, 10, -10, 0],
-              transition: { 
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
+          <Typography 
+            variant="h1" 
+            sx={{ 
+              fontSize: { xs: '4rem', md: '5rem' },
+              fontFamily: 'monospace',
+              color: '#FF3333',
+              textShadow: '0 0 20px rgba(255,51,51,0.5)'
+            }}
+          >
+            {error?.status || '404'}
+          </Typography>
+        </motion.div>
+
+        <Typography 
+          variant="h6" 
+          sx={{ 
+            color: 'rgba(255,255,255,0.9)',
+            textAlign: 'center',
+            mb: 4,
+            maxWidth: '80%',
+            textShadow: '0 0 10px rgba(255,255,255,0.2)'
+          }}
+        >
+          Схоже, що виникла помилка з'єднання. Перевірте підключення або поверніться на головну.
+        </Typography>
+
+        <motion.div
+          variants={buttonVariants}
+          initial="initial"
+          whileHover="hover"
+          whileTap="tap"
+        >
+          <Button
+            variant="contained"
+            onClick={() => navigate('/')}
+            sx={{
+              bgcolor: 'rgba(255, 51, 51, 0.9)',
+              px: 4,
+              py: 1.5,
+              borderRadius: 2,
+              fontSize: '1rem',
+              textTransform: 'none',
+              color: 'white',
+              boxShadow: '0 0 30px rgba(255,51,51,0.3)',
+              '&:hover': {
+                bgcolor: 'rgba(255, 0, 0, 1)'
               }
             }}
           >
-            {error?.status?.toString().slice(1,2)}
-          </motion.span>
-          {error?.status?.toString().slice(-1)}
-        </motion.p>
-
-        <div className="text-center">
-          <motion.p 
-            className="text-white font-bold mb-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
-            Вибачте, але сторінку не знайдено
-          </motion.p>
-
-          <motion.button
-            variants={buttonVariants}
-            initial="initial"
-            whileHover="hover"
-            whileTap="tap"
-            onClick={() => navigate('/')}
-            className="text-white bg-[#dd8232] px-8 py-4 rounded-lg font-bold 
-                     hover:bg-[#c97729] transition-colors duration-200"
-          >
-            ПОВЕРНУТИСЬ НА ГОЛОВНУ
-          </motion.button>
-        </div>
+            Повернутись на головну
+          </Button>
+        </motion.div>
       </motion.div>
-    </div>
+    </Box>
   );
 };
 
