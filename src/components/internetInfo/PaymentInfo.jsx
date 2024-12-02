@@ -40,6 +40,27 @@ const iconVariants = {
     }
   }
 };
+const StatusDisplay = ({ user }) => {
+  // Don't show anything if reduction is 100
+  if (user?.reduction === 100) {
+    return null;
+  }
+
+  // Show either CountdownTimer or suspended service message
+  return user?.status ? (
+    <CountdownTimer />
+  ) : (
+    <motion.div 
+      className="flex items-center justify-center p-4 bg-red-100 rounded-lg shadow-md animate-pulse"
+      whileHover={{ scale: 1.02 }}
+    >
+      <Pause className="w-6 h-6 text-red-500 mr-2 animate-bounce" />
+      <span className="text-red-700 font-semibold text-lg">
+        Послугу призупинено
+      </span>
+    </motion.div>
+  );
+};
 
 const PaymentInfo = ({ style }) => {
   const user = useStore(state => state.userData);
@@ -191,18 +212,8 @@ const PaymentInfo = ({ style }) => {
           value={`${user?.reduction} %`}
         />:<></>}
         <div className="pt-3">
-          {user?.status ? 
-            <CountdownTimer /> : 
-            <motion.div 
-              className="flex items-center justify-center p-4 bg-red-100 rounded-lg shadow-md animate-pulse"
-              whileHover={{ scale: 1.02 }}
-            >
-              <Pause className="w-6 h-6 text-red-500 mr-2 animate-bounce" />
-              <span className="text-red-700 font-semibold text-lg">
-                Послугу призупинено
-              </span>
-            </motion.div>
-          }
+        <StatusDisplay user={user} />
+
           <AdditionalServices addServicePrice={user?.addServicePrice} />
         </div>
       </div>

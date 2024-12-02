@@ -198,7 +198,7 @@ export default function PaymentDialog({open, handleClose, type}) {
                 endIcon={<CalculateIcon />}
                 onClick={handleShowDiscount}
               >
-                розрахувати 6/12/24 міс.
+                розрахувати 12 міс.
               </Button>
             </div>
           </FormControl>

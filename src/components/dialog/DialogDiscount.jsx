@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -11,19 +11,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function DialogDiscount({open, handleClose, handleAction, monthlyPayment}) {
-    function calc_6(monthlyPayment){
-        let sum=(monthlyPayment*6)-((monthlyPayment*6)*0.15)
-        return Math.round(sum)
-    }
-    
-    function calc_12(monthlyPayment){
-        let sum=(monthlyPayment*12)-((monthlyPayment*12)*0.25)
-        return Math.round(sum)
-    }
-    
-    function calc_24(monthlyPayment){
-        let sum=(monthlyPayment*24)-((monthlyPayment*24)*0.35)
-        return Math.round(sum)
+    function calcYearlyWithDiscount(monthlyPayment) {
+        let sum = (monthlyPayment * 12) - ((monthlyPayment * 12) * 0.2);
+        return Math.round(sum);
     }
 
     return (
@@ -52,7 +42,7 @@ export default function DialogDiscount({open, handleClose, handleAction, monthly
                         fontWeight: 600,
                         paddingY: 3
                     }}>
-                    Акції оплат 6/12/24 міс.
+                    Річна знижка
                 </DialogTitle>
                 <IconButton
                     aria-label="close"
@@ -87,57 +77,19 @@ export default function DialogDiscount({open, handleClose, handleAction, monthly
                                         <tbody>
                                             <tr
                                                 onClick={() => {
-                                                    handleAction(calc_6(monthlyPayment));
+                                                    handleAction(calcYearlyWithDiscount(monthlyPayment));
                                                     handleClose();
                                                 }}
                                                 className="border-b transition-all duration-300 ease-in-out hover:bg-red-50 cursor-pointer transform hover:scale-[1.01] hover:shadow-md"
                                             >
-                                                <td className="whitespace-nowrap px-6 py-6 font-medium text-red-600">6 міс. -15%</td>
+                                                <td className="whitespace-nowrap px-6 py-6 font-medium text-red-600">12 міс. -20%</td>
                                                 <td className="whitespace-nowrap px-6 py-6">
                                                     <div className='flex flex-col justify-center gap-2'>
-                                                        <span className='text-gray-400 line-through text-lg'>{monthlyPayment*6} грн.</span>
-                                                        <span className='font-bold text-2xl text-gray-900'>{calc_6(monthlyPayment)} грн.</span>    
+                                                        <span className='text-gray-400 line-through text-lg'>{monthlyPayment * 12} грн.</span>
+                                                        <span className='font-bold text-2xl text-gray-900'>{calcYearlyWithDiscount(monthlyPayment)} грн.</span>    
                                                     </div>
                                                     <span className="text-green-600 text-sm font-medium">
-                                                        ви заощаджуєте: {Math.round(monthlyPayment*6 *0.15)} грн.
-                                                    </span>
-                                                </td>
-                                                <td className="whitespace-nowrap px-6 py-6 text-red-500">→</td>
-                                            </tr>
-                                            <tr
-                                                onClick={() => {
-                                                    handleAction(calc_12(monthlyPayment));
-                                                    handleClose();
-                                                }}
-                                                className="border-b transition-all duration-300 ease-in-out hover:bg-red-50 cursor-pointer transform hover:scale-[1.01] hover:shadow-md"
-                                            >
-                                                <td className="whitespace-nowrap px-6 py-6 font-medium text-red-600">12 міс. -25%</td>
-                                                <td className="whitespace-nowrap px-6 py-6">
-                                                    <div className='flex flex-col justify-center gap-2'>
-                                                        <span className='text-gray-400 line-through text-lg'>{monthlyPayment*12} грн.</span>
-                                                        <span className='font-bold text-2xl text-gray-900'>{calc_12(monthlyPayment)} грн.</span>    
-                                                    </div>
-                                                    <span className="text-green-600 text-sm font-medium">
-                                                        ви заощаджуєте: {Math.round(monthlyPayment*12 *0.25)} грн.
-                                                    </span>
-                                                </td>
-                                                <td className="whitespace-nowrap px-6 py-6 text-red-500">→</td>
-                                            </tr>
-                                            <tr
-                                                onClick={() => {
-                                                    handleAction(calc_24(monthlyPayment));
-                                                    handleClose();
-                                                }}
-                                                className="border-b transition-all duration-300 ease-in-out hover:bg-red-50 cursor-pointer transform hover:scale-[1.01] hover:shadow-md"
-                                            >
-                                                <td className="whitespace-nowrap px-6 py-6 font-medium text-red-600">24 міс. -35%</td>
-                                                <td className="whitespace-nowrap px-6 py-6">
-                                                    <div className='flex flex-col justify-center gap-2'>
-                                                        <span className='text-gray-400 line-through text-lg'>{monthlyPayment*24} грн.</span>
-                                                        <span className='font-bold text-2xl text-gray-900'>{calc_24(monthlyPayment)} грн.</span>    
-                                                    </div>
-                                                    <span className="text-green-600 text-sm font-medium">
-                                                        ви заощаджуєте: {Math.round(monthlyPayment*24 * 0.35)} грн.
+                                                        ви заощаджуєте: {Math.round(monthlyPayment * 12 * 0.2)} грн.
                                                     </span>
                                                 </td>
                                                 <td className="whitespace-nowrap px-6 py-6 text-red-500">→</td>

@@ -125,7 +125,7 @@ const [openUnlink, setOpenUnlink] = useState(false);
   return (
       <section  >
         
-              <FeedbackModal/>
+            
 
 <BalancePopup 
   balance={user?.balance}
