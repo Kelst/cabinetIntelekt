@@ -63,8 +63,9 @@ export default function Layout() {
   }
 
   return (
+    
     <div className="relative min-h-screen w-full overflow-x-hidden">
-      <video
+      {/* <video
         autoPlay
         loop
         muted
@@ -72,7 +73,7 @@ export default function Layout() {
       >
         <source src="./src/assets/hsv4.mp4" type="video/mp4" />
         Your browser does not support the video tag.
-      </video>
+      </video> */}
 
       <Loader />
       <CustomAlert />
@@ -90,7 +91,9 @@ export default function Layout() {
         </nav>
 
         <main className="flex-grow px-4 mt-[10px] md:mt-[200px] mx-auto w-full max-w-[90%] sm:max-w-[550px] md:max-w-[900px] lg:max-w-[1019px] xl:max-w-[1100px] 2xl:max-w-[1450px]">
+     
           <Outlet />
+    
         </main>
       </div>
 

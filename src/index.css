@@ -21,7 +21,7 @@
 }
 
 body {
-  @apply bg-gradient-to-br from-red-950 via-black to-red-900;
+  @apply bg-gradient-to-br from-red-700 via-black to-red-400;
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;

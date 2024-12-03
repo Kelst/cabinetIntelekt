@@ -31,6 +31,7 @@ import { Feedback } from '@mui/icons-material';
 import FeedbackModal from '../../components/callBack/FeedbackModal';
 import UserMenu from '../../components/navigation/UserMenu';
 import UserMenuHome from '../../components/navigation/UserMenuHome';
+import HomeTour from '../../components/tutorial/HomeTour';
 export default function Home() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -125,7 +126,7 @@ const [openUnlink, setOpenUnlink] = useState(false);
   return (
       <section  >
         
-            
+        <HomeTour/>    
 
 <BalancePopup 
   balance={user?.balance}
@@ -146,6 +147,7 @@ const [openUnlink, setOpenUnlink] = useState(false);
         <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"}>
 
         <MainInfo 
+        id="main-info"
     // user={user}
     style={style}
     handleEditPhone={handleEditPhone}
@@ -155,12 +157,14 @@ const [openUnlink, setOpenUnlink] = useState(false);
     handleCid={handleCid}
   />
           <PaymentInfo 
+          id="payment-info"
     // user={user}
     style={style}
   />
 
         
   <InternetInfo 
+  id="internet-info" 
     // user={user} 
     extractInfoFromString={extractInfoFromString} 
     style={style}
@@ -172,6 +176,7 @@ const [openUnlink, setOpenUnlink] = useState(false);
    {   
 hasAnyTrueValue?
    <LoginManagement 
+   id="login-management"
     style={style}
     setControllPanelDialog={setControllPanelDialog}
     handleClearMac={handleCid}

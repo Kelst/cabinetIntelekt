@@ -14,6 +14,8 @@ const MaskedInput = memo(({ value, onChange }) => (
     onChange={onChange}
   >
     {() => (
+       <motion.div    whileFocus={{ scale: 1.02 }}
+       whileTap={{ scale: 0.98 }}>
       <TextField
         fullWidth
         label="Номер телефону"
@@ -40,6 +42,7 @@ const MaskedInput = memo(({ value, onChange }) => (
           },
         }}
       />
+      </motion.div>
     )}
   </InputMask>
 ));
@@ -203,7 +206,8 @@ const FeedbackModal = () => {
 
         <Box className="space-y-4">
           <MaskedInput value={phone} onChange={(e) => setPhone(e.target.value)} />
-
+          <motion.div    whileFocus={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}>
           <TextField
             fullWidth
             multiline
@@ -233,7 +237,7 @@ const FeedbackModal = () => {
               },
             }}
           />
-
+</motion.div>
           <motion.div
             whileHover={isValidPhone ? { scale: 1.02 } : {}}
             whileTap={isValidPhone ? { scale: 0.98 } : {}}

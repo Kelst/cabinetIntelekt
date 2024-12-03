@@ -110,7 +110,7 @@ const UserHeader = () => {
             onMouseLeave={() => setIsHovered(false)}
           >
             <TextAnimation text={user.name || 'Ім\'я користувача недоступне'} />
-            <RandomAvatar userId={user.uid} />
+            {/* <RandomAvatar userId={user.uid} /> */}
           </animated.h1>
         </motion.div>
 

@@ -5,6 +5,7 @@ import PaidIcon from '@mui/icons-material/Paid';
 import InfoIcon from '@mui/icons-material/Info';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { motion } from 'framer-motion';
 
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import minLogo from "../../assets/min-logo.png"
@@ -74,13 +75,16 @@ setActiveItem(item)
         className="absolute -left-6  w-[210px] h-[200px] z-50 cursor-pointer overflow-hidden"
         onClick={() => navigate('/home')}
       >
-        <div className="relative w-full h-full flex items-center justify-center">
+        <motion.div 
+         whileFocus={{ scale: 1.02 }}
+         whileTap={{ scale: 0.98 }}
+        className="relative w-full h-full flex items-center justify-center">
           <img 
             src={configCabinet.logo_min_navigation}
             alt="Logo"
             className="w-[70%] h-auto object-contain" 
           />
-        </div>
+        </motion.div>
       </div>
       {/*    <div className=' absolute font-bold  hidden 2xl:block  top-[90px] transition-all duration-500  left-0 uppercase text-white text-[10px]  2xl:top-[21px] 2xl:left-60 2xl:text-black '> 
        <span className={clases.spanText}> Особистий кабінет   </span>  </div> */}
