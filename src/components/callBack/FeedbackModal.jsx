@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { motion } from 'framer-motion';
 import { Dialog, TextField, Typography, Button, IconButton, Tooltip, Box } from '@mui/material';
 import { Headset, X, MessageSquare } from 'lucide-react';
@@ -6,6 +6,45 @@ import InputMask from 'react-input-mask';
 import ContactInfoButton from '../сontactInfoButton/ContactInfoButton';
 import useInfoStore from '../../store/infoStore';
 import useStore from '../../store/store';
+
+const MaskedInput = memo(({ value, onChange }) => (
+  <InputMask
+    mask="+380 99 999 99 99"
+    value={value}
+    onChange={onChange}
+  >
+    {() => (
+      <TextField
+        fullWidth
+        label="Номер телефону"
+        variant="outlined"
+        sx={{
+          '& .MuiOutlinedInput-root': {
+            color: '#666666',
+            backgroundColor: '#FFFFFF',
+            '& fieldset': {
+              borderColor: 'rgba(255, 23, 68, 0.3)',
+            },
+            '&:hover fieldset': {
+              borderColor: '#ff4569',
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: '#ff1744',
+            }
+          },
+          '& .MuiInputLabel-root': {
+            color: '#666666',
+            '&.Mui-focused': {
+              color: '#ff1744'
+            }
+          },
+        }}
+      />
+    )}
+  </InputMask>
+));
+
+MaskedInput.displayName = 'MaskedInput';
 
 const FeedbackModal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,28 +56,35 @@ const FeedbackModal = () => {
   const showAllert = useInfoStore(state => state.showAllert);
   
   const isValidPhone = phone.replace(/[^0-9]/g, '').length === 12;
-async function  handleFeedback (){
-// //phone message sublogin ['login1','login2','login3']//
-// login,phone,message,sublogin
-try {
-  setLoader(true);
-  const sublogin=user.subLogin.map(e=>e.login)
-  const result = await addFeedBackU(user.login, phone, message,sublogin);
-  if (result.status) {
-    showAllert(2, 'Ваше звернення прийняте !');
-  } else {
-    showAllert(0, 'Вибачте виникла помилка під час залишення звернення');
-  }
-} catch (error) {
-  showAllert(2, "Виникла непередбачена помилка"+error);
-} finally {
-  setMessage('')
-  setPhone('')
-  setLoader(false);
-  setIsOpen(false);
 
-}
-}
+  const handleOpen = () => {
+    setIsOpen(true);
+    setPhone('');
+    setMessage('');
+  };
+
+  const handleClose = () => setIsOpen(false);
+
+  async function handleFeedback() {
+    try {
+      setLoader(true);
+      const sublogin = user.subLogin.map(e => e.login);
+      const result = await addFeedBackU(user.login, phone, message, sublogin);
+      if (result.status) {
+        showAllert(2, 'Ваше звернення прийняте !');
+      } else {
+        showAllert(0, 'Вибачте виникла помилка під час залишення звернення');
+      }
+    } catch (error) {
+      showAllert(2, "Виникла непередбачена помилка" + error);
+    } finally {
+      setMessage('');
+      setPhone('');
+      setLoader(false);
+      setIsOpen(false);
+    }
+  }
+
   const iconVariants = {
     initial: { scale: 1 },
     hover: { 
@@ -81,7 +127,7 @@ try {
           }}
         >
           <IconButton 
-            onClick={() =>{ setIsOpen(true) ;setPhone(''),setMessage('')}}
+            onClick={handleOpen}
             sx={{ 
               bgcolor: '#ff1744',
               color: 'white',
@@ -96,7 +142,7 @@ try {
 
       <Dialog
         open={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={handleClose}
         maxWidth="sm"
         fullWidth
         PaperProps={{
@@ -114,17 +160,14 @@ try {
           }
         }}
       >
-        {/* Close Button */}
-
         <motion.div
           className="absolute top-4 right-4"
           variants={closeIconVariants}
           initial="initial"
           whileHover="hover"
         >
-          
           <IconButton 
-            onClick={() => setIsOpen(false)}
+            onClick={handleClose}
             sx={{ 
               color: 'grey.500',
               '&:hover': { 
@@ -138,7 +181,6 @@ try {
           </IconButton>
         </motion.div>
 
-        {/* Title and User Info */}
         <Box className="mb-6">
           <Typography 
             sx={{ 
@@ -150,52 +192,17 @@ try {
           >
             Зворотній зв'язок
             <ContactInfoButton />
-
           </Typography>
           <Box className="flex items-center gap-2">
             <MessageSquare size={24} color="#ff1744" />
             <Typography sx={{ color: '#ff1744', fontWeight: 500, fontSize: '1.25rem' }}>
-              vlad_b_1
+              {user.login}
             </Typography>
           </Box>
         </Box>
 
-        {/* Form Fields */}
         <Box className="space-y-4">
-          <InputMask
-            mask="+380 99 999 99 99"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          >
-            {() => (
-              <TextField
-                fullWidth
-                label="Номер телефону"
-                variant="outlined"
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    color: '#666666',
-                    backgroundColor: '#FFFFFF',
-                    '& fieldset': {
-                      borderColor: 'rgba(255, 23, 68, 0.3)',
-                    },
-                    '&:hover fieldset': {
-                      borderColor: '#ff4569',
-                    },
-                    '&.Mui-focused fieldset': {
-                      borderColor: '#ff1744',
-                    }
-                  },
-                  '& .MuiInputLabel-root': {
-                    color: '#666666',
-                    '&.Mui-focused': {
-                      color: '#ff1744'
-                    }
-                  },
-                }}
-              />
-            )}
-          </InputMask>
+          <MaskedInput value={phone} onChange={(e) => setPhone(e.target.value)} />
 
           <TextField
             fullWidth

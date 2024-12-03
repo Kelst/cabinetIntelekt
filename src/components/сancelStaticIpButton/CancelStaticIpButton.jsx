@@ -80,17 +80,21 @@ const CancelStaticIpButton = () => {
         <DialogTitle style={{ paddingRight: '48px' }}>
           Відміна статичної IP-адреси
           <IconButton
-            aria-label="close"
-            onClick={handleClose}
-            style={{
-              position: 'absolute',
-              right: '16px',
-              top: '16px',
-              color: '#6b7280'
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
+  aria-label="close"
+  onClick={handleClose}
+  sx={{
+    position: 'absolute',
+    right: '16px',
+    top: '16px',
+    color: '#6b7280',
+    transition: 'transform 0.3s ease',
+    '&:hover': {
+      transform: 'rotate(180deg)',
+    }
+  }}
+>
+  <CloseIcon />
+</IconButton>
         </DialogTitle>
 
         <DialogContent>

@@ -61,17 +61,21 @@ export default function AddService({ open, handleClose }) {
           Додаткові послуги
         </DialogTitle>
         <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: 'rgba(0, 0, 0, 0.5)',
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
+  aria-label="close"
+  onClick={handleClose}
+  sx={{
+    position: 'absolute',
+    right: '16px',
+    top: '16px',
+    color: '#6b7280',
+    transition: 'transform 0.3s ease',
+    '&:hover': {
+      transform: 'rotate(180deg)',
+    }
+  }}
+>
+  <CloseIcon />
+</IconButton>
         <DialogContent className="bg-white">
           <div className="p-6 space-y-6 text-gray-800">
             <AnimatedText delay={0.1}>

@@ -129,19 +129,24 @@ let result
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle className=' text-center ' sx={{minWidth:"280px",fontSize:"32px"}}>{"Додаткові послуги"}</DialogTitle>
-        <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
+ <DialogTitle className="text-center text-3xl font-bold text-red-600 pb-4 border-b border-gray-300">
+          Додаткові послуги
+        </DialogTitle>        <IconButton
+  aria-label="close"
+  onClick={handleClose}
+  sx={{
+    position: 'absolute',
+    right: '16px',
+    top: '16px',
+    color: '#6b7280',
+    transition: 'transform 0.3s ease',
+    '&:hover': {
+      transform: 'rotate(180deg)',
+    }
+  }}
+>
+  <CloseIcon />
+</IconButton>
         <DialogContent>
         <MuiTelInput
             inputProps={{
