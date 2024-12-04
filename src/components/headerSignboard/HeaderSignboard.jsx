@@ -4,6 +4,7 @@ import { PhoneMissed } from 'lucide-react';
 import useStore from '../../store/store';
 import useInfoStore from '../../store/infoStore';
 import useConfigPage from '../../store/configPage';
+import HomeTour from '../tutorial/HomeTour';
 
 const HeaderSignboard = ({ user }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,6 +48,7 @@ const HeaderSignboard = ({ user }) => {
         transition={{ duration: 0.4, ease: "easeOut" }}
         className="w-full z-[999] flex flex-col items-center px-4"
       >
+
         {/* Improved Logo Circle */}
         <motion.div
           whileHover={{ scale: 1.05 }}
@@ -69,12 +71,15 @@ const HeaderSignboard = ({ user }) => {
           className="w-full max-w-[320px] bg-[#1a1a1a] rounded-xl relative shadow-[0_0_15px_rgba(255,0,0,0.3)] border border-red-500/30"
         >
           <div className="p-4 space-y-4">
+          <HomeTour/>
+
             <div className="text-center space-y-2">
               <h2 className="text-white text-lg font-semibold">Особистий кабінет</h2>
               <p className="text-gray-400 text-sm">{user.name}</p>
             </div>
 
             <div className="flex flex-col items-center gap-2">
+
               <motion.button
                 onClick={() => user.subLogin?.length > 0 && setIsOpen(!isOpen)}
                 className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors"

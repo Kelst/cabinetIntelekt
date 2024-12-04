@@ -6,6 +6,7 @@ import useStore from '../../store/store';
 import ContactInfoButton from '../сontactInfoButton/ContactInfoButton';
 import { RandomAvatar } from '../icons/RandomAvatar';
 import useInfoStore from '../../store/infoStore';
+import HomeTour from '../tutorial/HomeTour';
 
 const UserHeader = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -70,6 +71,8 @@ const UserHeader = () => {
 
     return (
       <div className="flex justify-center items-center gap-2 mt-4 overflow-x-auto py-2">
+                <HomeTour/>    
+
         <div className="flex gap-2">
           {allLogins.map((loginUser) => (
             <button

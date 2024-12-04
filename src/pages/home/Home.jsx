@@ -126,7 +126,6 @@ const [openUnlink, setOpenUnlink] = useState(false);
   return (
       <section  >
         
-        <HomeTour/>    
 
 <BalancePopup 
   balance={user?.balance}
@@ -197,9 +196,10 @@ hasAnyTrueValue?
     <div className='lg:hidden'>
     {/* <UserMenu  user={user} centered/> */}
     <UserMenuHome/>
-    <ContactInfoButton />
-
+   
+       
         <div className="flex flex-col gap-y-6 items-center justify-center sm:p-4">
+         
           <MainInfo 
             // user={user}
             style={style}
@@ -247,6 +247,7 @@ hasAnyTrueValue?
             handleUnlick={handleUnlick}
             handleExitDialogOpen={handleExitDialogOpen}
           />:<></>}
+      
         </div>
       </div>
 
