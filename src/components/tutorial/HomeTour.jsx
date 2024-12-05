@@ -94,7 +94,7 @@ const HomeTour = () => {
 
   return (
     <>
-      <div className="fixed top-[80px] left-5 z-[10000000]">
+      <div className="fixed bottom-2 left-5 z-[10000000]">
         <div className="relative">
           <button
             className="p-2 bg-white border border-gray-200 rounded-full shadow-sm hover:bg-gray-50 transition-colors"
