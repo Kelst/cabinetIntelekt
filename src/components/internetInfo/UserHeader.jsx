@@ -101,7 +101,7 @@ const UserHeader = () => {
 
   return (
     <animated.div style={fadeIn} className="mb-8 text-center">
-      <HomeTour/>
+      
       <div className="p-8 rounded-lg bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg shadow-lg">
         <motion.div
           whileHover={{ scale: 1.05 }}

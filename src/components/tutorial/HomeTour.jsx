@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Joyride from 'react-joyride';
 import { HelpCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { IconButton, Tooltip } from '@mui/material';
 
 const HomeTour = () => {
   const [run, setRun] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
   useEffect(() => {
@@ -30,6 +31,15 @@ const HomeTour = () => {
     const { status } = data;
     if (['finished', 'skipped'].includes(status)) {
       setRun(false);
+    }
+  };
+
+  const iconVariants = {
+    initial: { scale: 1 },
+    hover: { 
+      scale: 1.1,
+      rotate: [0, -10, 10, 0],
+      transition: { duration: 0.3 }
     }
   };
 
@@ -91,30 +101,42 @@ const HomeTour = () => {
     }
   ];
 
-
   return (
     <>
-      <div className="fixed bottom-2 left-5 z-[10000000]">
-        <div className="relative">
-          <button
-            className="p-2 bg-white border border-gray-200 rounded-full shadow-sm hover:bg-gray-50 transition-colors"
+      <motion.div
+        variants={iconVariants}
+        initial="initial"
+        whileHover="hover"
+        className="fixed top-[214px] right-[42px] z-50"
+      >
+        <Tooltip 
+          title="Туторіал" 
+          placement="left"
+          sx={{
+            '& .MuiTooltip-tooltip': {
+              bgcolor: '#ff1744',
+              color: '#ffffff',
+              fontSize: '0.875rem',
+              fontWeight: 500,
+              boxShadow: '0 2px 8px rgba(255, 23, 68, 0.5)',
+              borderRadius: '4px',
+              padding: '6px 12px'
+            }
+          }}
+        >
+          <IconButton 
             onClick={handleStartTour}
-            onMouseEnter={() => setShowTooltip(true)}
-            onMouseLeave={() => setShowTooltip(false)}
+            sx={{ 
+              bgcolor: '#ff1744',
+              color: 'white',
+              '&:hover': { bgcolor: '#ff4569' },
+              boxShadow: '0 0 20px rgba(255, 23, 68, 0.5)'
+            }}
           >
-            <HelpCircle className="h-5 w-5 text-gray-600" />
-          </button>
-          
-          {showTooltip && (
-            <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2">
-              <div className="bg-gray-900 text-white text-sm py-1 px-2 rounded whitespace-nowrap">
-                Запустити туторіал
-              </div>
-              <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900" />
-            </div>
-          )}
-        </div>
-      </div>
+            <HelpCircle size={28} />
+          </IconButton>
+        </Tooltip>
+      </motion.div>
 
       <Joyride
         steps={isMobile ? mobileSteps : desktopSteps}
@@ -127,31 +149,35 @@ const HomeTour = () => {
         styles={{
           options: {
             zIndex: 10000,
-            primaryColor: '#ef4444',
+            primaryColor: '#ff1744',
             backgroundColor: '#000000',
             textColor: '#ffffff',
             arrowColor: '#000000',
-            overlayColor: 'rgba(0, 0, 0, 0.5)'
+            overlayColor: 'rgba(0, 0, 0, 0.4)'
           },
           tooltip: {
             fontSize: isMobile ? '14px' : '16px',
             padding: isMobile ? '12px' : '16px',
             maxWidth: isMobile ? '300px' : '400px',
             whiteSpace: 'pre-line',
-            textAlign: 'left'  // Added this line for left alignment
+            textAlign: 'left',
+            backdropFilter: 'blur(4px)'
           },
           tooltipContent: {
             padding: isMobile ? '8px' : '12px',
-            textAlign: 'left'  // Added this line for left alignment
+            textAlign: 'left'
           },
           tooltipTitle: {
-            textAlign: 'left'  // Added this line for left alignment of titles
+            textAlign: 'left'
           },
           buttonNext: {
-            backgroundColor: '#ef4444'
+            backgroundColor: '#ff1744',
+            '&:hover': {
+              backgroundColor: '#ff4569'
+            }
           },
           buttonBack: {
-            color: '#ef4444'
+            color: '#ff1744'
           }
         }}
         floaterProps={{

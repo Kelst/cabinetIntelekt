@@ -21,6 +21,7 @@ import NetworkDiagnostics from '../networkDiagnostics/NetworkDiagnostics';
 import useConfigPage from '../../store/configPage';
 import TelegramAdButton from '../telegramComponent/TelegramAdButton';
 import FeedbackModal from '../callBack/FeedbackModal';
+import HomeTour from '../tutorial/HomeTour';
 
 const iconVariants = {
   animate: {
@@ -80,6 +81,7 @@ const MainInfo = ({ style, handleEditPhone, handleStopPlayLogin, handleReloadSes
      
       <TelegramAdButton/>
       <FeedbackModal/>
+      <HomeTour/>
       <h2 className="text-xl font-bold mb-4 sm:mb-6 text-red-500 flex items-center">
         <motion.div
           className="mr-2 perspective-400"

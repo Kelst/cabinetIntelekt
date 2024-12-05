@@ -52,7 +52,7 @@ const HeaderSignboard = ({ user }) => {
           transition={{ duration: 0.4, ease: "easeOut" }}
           className="w-full z-[999] flex flex-col items-center px-4"
         >
-                  <HomeTour />
+                
 
           {/* Improved Logo Circle */}
           <motion.div
