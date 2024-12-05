@@ -71,7 +71,7 @@ const UserHeader = () => {
 
     return (
       <div className="flex justify-center items-center gap-2 mt-4 overflow-x-auto py-2">
-                <HomeTour/>    
+                 
 
         <div className="flex gap-2">
           {allLogins.map((loginUser) => (
@@ -101,6 +101,7 @@ const UserHeader = () => {
 
   return (
     <animated.div style={fadeIn} className="mb-8 text-center">
+      <HomeTour/>
       <div className="p-8 rounded-lg bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg shadow-lg">
         <motion.div
           whileHover={{ scale: 1.05 }}
@@ -112,6 +113,7 @@ const UserHeader = () => {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
+            
             <TextAnimation text={user.name || 'Ім\'я користувача недоступне'} />
             {/* <RandomAvatar userId={user.uid} /> */}
           </animated.h1>
