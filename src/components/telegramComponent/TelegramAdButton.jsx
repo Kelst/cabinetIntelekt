@@ -91,28 +91,32 @@ const TelegramAdButton = () => {
           }
         }}
       >
-        <Fab
-          sx={{
-            position: 'fixed',
-            top: 96,
-            right: 36,
-            zIndex: 20,
-            bgcolor: '#ff1744',
-            color: 'white',
-            animation: `${pulse} 2s infinite`,
-            '& .MuiSvgIcon-root': {
-              animation: isRotating ? `${rotate} 2s infinite linear` : 'none',
-            },
-            '&:hover': {
-              bgcolor: '#ff4569',
-              transform: 'scale(1.1)',
-            },
-            transition: 'all 0.3s'
-          }}
-          onClick={() => setOpen(true)}
-          onMouseEnter={handleHover}
-          onMouseLeave={handleHoverEnd}
-        >
+      <Fab
+  sx={{
+    position: 'fixed',
+    top: '96px',
+    right: '29px', // Changed from 29px to 36px to match others
+    zIndex: 20,
+    bgcolor: '#ff1744',
+    color: 'white',
+    width: '48px', // Added to match IconButton size
+    height: '48px', // Added to match IconButton size
+    minHeight: 'unset', // Override default Fab minimum height
+    animation: `${pulse} 2s infinite`,
+    '& .MuiSvgIcon-root': {
+      animation: isRotating ? `${rotate} 2s infinite linear` : 'none',
+      fontSize: '28px', // Added to match other icons
+    },
+    '&:hover': {
+      bgcolor: '#ff4569',
+      transform: 'scale(1.1)',
+    },
+    transition: 'all 0.3s'
+  }}
+  onClick={() => setOpen(true)}
+  onMouseEnter={handleHover}
+  onMouseLeave={handleHoverEnd}
+>
           <TelegramIcon />
         </Fab>
       </Tooltip>

@@ -112,7 +112,7 @@ const FeedbackModal = () => {
         variants={iconVariants}
         initial="initial"
         whileHover="hover"
-        className="fixed top-[164px] right-[42px] z-50"
+        className="fixed top-[164px] right-[29px] z-50"
       >
         <Tooltip 
           title="Зворотній зв'язок" 
