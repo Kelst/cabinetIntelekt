@@ -74,7 +74,7 @@ const MainInfo = ({ style, handleEditPhone, handleStopPlayLogin, handleReloadSes
   );
 
   const renderConnectionStatus = () => {
-    if (user?.guestIp && user.guestIp !== "0.0.0.0") {
+    if (user?.guestIp?.startsWith('10.')) {
       return (
         <motion.div 
           initial={{ opacity: 0, y: -10 }}
