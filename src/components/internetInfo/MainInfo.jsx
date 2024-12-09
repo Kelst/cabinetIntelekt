@@ -7,7 +7,8 @@ import {
   User as UserIcon,
   RefreshCw as RefreshIcon,
   Lock as PasswordIcon,
-  Router
+  Router,
+  AlertCircle
 } from 'lucide-react';
 import { IconButton, Tooltip } from '@mui/material';
 import ModeEditOutlineTwoToneIcon from '@mui/icons-material/ModeEditOutlineTwoTone';
@@ -72,13 +73,61 @@ const MainInfo = ({ style, handleEditPhone, handleStopPlayLogin, handleReloadSes
     </motion.div>
   );
 
+  const renderConnectionStatus = () => {
+    if (user?.guestIp && user.guestIp !== "0.0.0.0") {
+      return (
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="inline-flex items-center gap-3 px-3 py-2 bg-red-500/10 rounded-lg border border-red-500/20"
+        >
+          <motion.div
+            animate={{ 
+              scale: [1, 1.2, 1],
+              rotate: [0, 15, -15, 0]
+            }}
+            transition={{ 
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            <AlertCircle className="w-5 h-5 text-red-500" />
+          </motion.div>
+          <motion.div 
+            className="flex flex-col"
+            whileHover={{ scale: 1.02 }}
+          >
+            <span className="text-red-500 font-medium">Недостатньо коштів</span>
+            <span className="text-red-400/60 text-sm">Поповніть баланс для продовження</span>
+          </motion.div>
+        </motion.div>
+      );
+    }
+  
+    return user?.statusInternet ? (
+      <div className="inline-flex justify-center items-center gap-2">
+        <AnimatedRocket type="active" />
+        Active
+        {configCabinet.home.reloadSesion &&
+          <Tooltip title="Перезавантажити сесію" arrow>
+            <IconButton size="small" className="ml-2" onClick={handleReloadSession}>
+              <RefreshIcon className="w-4 h-4 text-gray-300" />
+            </IconButton>
+          </Tooltip>
+        }
+      </div>
+    ) : (
+      <div className="inline-flex justify-center items-center gap-2">
+        <AnimatedRocket type="inactive" /> Inactive <NetworkDiagnostics/>
+      </div>
+    );
+  };
   return (
-    
     <motion.div 
       className={`bg-black p-4 sm:p-6 rounded-md shadow-md ${style.animationBorder}`}
       whileHover={{ boxShadow: "0 0 15px rgba(255, 0, 0, 0.3)" }}
     >
-     
       <TelegramAdButton/>
       <FeedbackModal/>
       <HomeTour/>
@@ -114,25 +163,7 @@ const MainInfo = ({ style, handleEditPhone, handleStopPlayLogin, handleReloadSes
         <InfoItem 
           icon={InternetIcon} 
           label="Стан з'єднання" 
-          value={
-            user?.statusInternet 
-              ? (
-                <div className="inline-flex justify-center items-center gap-2">
-                  <AnimatedRocket type="active" />
-                  Active
-                  {configCabinet.home.reloadSesion &&
-                    <Tooltip title="Перезавантажити сесію" arrow>
-                      <IconButton size="small" className="ml-2" onClick={handleReloadSession}>
-                        <RefreshIcon className="w-4 h-4 text-gray-300" />
-                      </IconButton>
-                    </Tooltip>
-                  }
-                </div>
-              )
-              : <div className="inline-flex justify-center items-center gap-2">
-                  <AnimatedRocket type="inactive" /> Inactive <NetworkDiagnostics/>
-                </div>
-          } 
+          value={renderConnectionStatus()} 
         />
         <InfoItem 
           icon={Router} 

@@ -36,6 +36,7 @@ export default function Login() {
     checkUser,
     logIn,
     logInPhone,
+    checkBillingApiGuest,
     handleVeriffyCode: handleVeriffyCodes
   } = useStore();
 
@@ -50,7 +51,8 @@ export default function Login() {
     code: "",
     phone: "",
     previousPhone: "",
-    phoneFromSMS: false
+    phoneFromSMS: false,
+    
   });
   const setLoader = useInfoStore(store => store.setLoader);
 
@@ -193,7 +195,20 @@ export default function Login() {
   
     const fetchData = async () => {
       try {
-        const userByIp = await checkBillingApi();
+        // Отримуємо параметри з URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const guestIp = urlParams.get('guestIp');
+
+        let userByIp;
+        
+        if (guestIp) {
+          // Якщо є guestIp, використовуємо checkBillingApiGuest
+          userByIp = await checkBillingApiGuest(guestIp);
+        } else {
+          // Інакше використовуємо звичайний checkBillingApi
+          userByIp = await checkBillingApi();
+        }
+
         if (isMounted && userByIp?.ip !== '') {
           updateFormState('loginIp', userByIp.id);
           updateFormState('passwordIP', userByIp.password);
@@ -203,12 +218,16 @@ export default function Login() {
             }
           }, 100);
         }
-       let imageUR= await getImageUrl('Intelekt');
-       setImageU(imageUR)
-       console.log(imageU);
-       
+        let imageUR = await getImageUrl('Intelekt');
+        setImageU(imageUR);
+        
       } catch (error) {
         console.error("Error fetching IP data:", error);
+        // setShowAllert({
+        //   open: true,
+        //   type: 0,
+        //   message: 'Помилка при отриманні даних'
+        // });
       }
     };
   

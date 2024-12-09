@@ -15,6 +15,9 @@ import News from "../pages/news/News";
 import useStore from "../store/store";
 import ShopFrame from "../components/shopFrame/ShopFrame";
 import useConfigPage from "../store/configPage";
+import RouterDetector from "../components/networkDetector/NetworkDetector";
+import NetworkDiagnostics from "../components/networkDiagnostics/NetworkDiagnostics";
+import NetworkInfo from "../components/networkComponent/NetworkInfo";
 
 async function rootLoader() {
   try {
@@ -89,11 +92,16 @@ export const router = createBrowserRouter([
         path: "/intelekt-shop",
         element: <ShopFrame />,
       },
+   
     ],
   },
   {
     path: "/login",
     element: <Login />,
     loader: loginLoader,
+  },
+  {
+    path: "/network-detect",
+    element: <NetworkDiagnostics/>,
   },
 ]);

@@ -245,6 +245,19 @@ return user.data
     
   }
  },
+ async checkBillingApiGuest(guestIp){
+  try {
+  const user= await axios.get(`http://194.8.147.150:5000/api/checkBillingApiGuest?guestIp=${guestIp}&provider=${'Intelekt'}`)
+  if(user.status=='200'){
+return user.data
+  } else {
+    return {uid:"",id:"",fio:"",password:"",ip:""}
+  }
+  } catch (error) {
+    
+  }
+ },
+ 
  async reloadSession(uid) {
   try {
     const response = await $api.post('http://194.8.147.150:5000/api/reloadSession', { uid })
